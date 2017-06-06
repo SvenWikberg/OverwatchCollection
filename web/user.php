@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-require_once('overwatchcollection_dao.php');
+require_once('inc.dao.php');
 
 if (isset($_GET['action'])) { // selon l'action, la page recupere ou teste des données differentes
     if($_GET['action'] == 'login'){ // l'action login teste les données entrées par l'utilisateur afin de le connecter ou pas
@@ -54,7 +54,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere ou teste des d
     </head>
     <body>
         <header>
-            <?php include_once('navbar.inc.php'); ?>
+            <?php include_once('inc.navbar.php'); ?>
         </header>
         <?php
         if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null){ // si l'utilisateur est connecter il peut se deconnecter

@@ -34,6 +34,24 @@ function SelectHeroes() {
     return $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// A FAIRE AVEC FOREACH ID_ROLE
+function SelectHeroesInArrayByRole() { 
+    $req = 'SELECT * FROM heroes WHERE id_role = :id';
+    $sql = MyPdo()->prepare($req);
+
+    $test = 1;
+    $sql->bindParam(':id', $test, PDO::PARAM_INT);
+    $sql->execute();
+    $tmp[1] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    $test = 2;
+    $sql->bindParam(':id', $test, PDO::PARAM_INT);
+    $sql->execute();
+    $tmp[2] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $tmp;
+}
+
 // récupère les infos d'un utilisateur en fonction de son 'username' (utilisé pour la connection)
 function GetUserByUsername($username) {
     $req = 'SELECT * FROM users WHERE username = :username';
