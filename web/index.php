@@ -8,12 +8,12 @@ require_once('overwatchcollection_dao.php');
     <head>
         <meta charset="utf-8">
         <title>index</title>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="css/style-main.css">
         <script src="script.js"></script>
     </head>
     <body>
-    <?php
-    print_rr(GetUserByUsername('sven'));
-    ?>
+        <header>
+            <?php include_once('navbar.inc.php'); ?>
+        </header>
     </body>
 </html>

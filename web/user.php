@@ -49,16 +49,18 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere ou teste des d
     <head>
         <meta charset="utf-8">
         <title>user</title>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="css/style-main.css">
         <script src="script.js"></script>
     </head>
     <body>
+        <header>
+            <?php include_once('navbar.inc.php'); ?>
+        </header>
         <?php
         if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null){ // si l'utilisateur est connecter il peut se deconnecter
             $user = GetUserById($_SESSION['id_connected']);
 
             echo '<h1>Hello ' . $user['username'] . '</h1>';
-            echo '<a href="user.php?action=deco">disconnection</a>';
         } else {
             if(isset($_GET['msg']))
                 if($_GET['msg'] == 'signOk') // l'utilisateur a bien ete ajouté a la base de donnees'
@@ -97,7 +99,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere ou teste des d
         echo $display;
     }
 
-    function DisplaySignin(){
+    function DisplaySignin(){ // affichage du formulaire de création de compte avec les message d'erreurs, en GET, s'il y en a
         $display = '<form action="user.php?action=signin" method="post">
                         <fieldset>
                             <legend><h2>Sign in</h2></legend>
