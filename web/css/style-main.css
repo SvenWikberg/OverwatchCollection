@@ -1,7 +1,11 @@
 body{
-    width: 80%;
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
+}
+
+p{
+    text-align: justify;
 }
 
 header ul{
@@ -11,6 +15,19 @@ header ul{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    flex-wrap: wrap;
+}
+
+section#heroes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+section#hero_info div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     flex-wrap: wrap;
 }

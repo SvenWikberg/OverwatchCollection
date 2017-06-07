@@ -34,26 +34,54 @@ function SelectHeroes() {
     return $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// récupère un heros grace a son id
+function SelectHeroById($id) {
+    $req = 'SELECT * FROM heroes WHERE id_hero = :id';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id', $id, PDO::PARAM_INT);
+    $sql->execute();
+
+    return $sql->fetch(PDO::FETCH_ASSOC);
+}
+
+function SelectAbilitiesByIdHero($id){
+    $req = 'SELECT abilities.* 
+            FROM abilities 
+            JOIN heroes ON heroes.id_hero = abilities.id_hero
+            WHERE heroes.id_hero = :id
+            ORDER BY abilities.is_ultimate';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id', $id, PDO::PARAM_INT);
+    $sql->execute();
+
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// récupère tous les roles dans l'ordre de base/de l'id
+function SelectRoles() {
+    $req = 'SELECT * FROM roles';
+    $sql = MyPdo()->prepare($req);
+    $sql->execute();
+
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
 // A FAIRE AVEC FOREACH ID_ROLE
 function SelectHeroesInArrayByRole() { 
     $req = 'SELECT * FROM heroes WHERE id_role = :id';
     $sql = MyPdo()->prepare($req);
 
-    $test = 1;
-    $sql->bindParam(':id', $test, PDO::PARAM_INT);
-    $sql->execute();
-    $tmp[1] = $sql->fetchAll(PDO::FETCH_ASSOC);
-
-    $test = 2;
-    $sql->bindParam(':id', $test, PDO::PARAM_INT);
-    $sql->execute();
-    $tmp[2] = $sql->fetchAll(PDO::FETCH_ASSOC);
+    foreach (SelectRoles() as $role) {
+        $sql->bindParam(':id', $role['id_role'], PDO::PARAM_INT);
+        $sql->execute();
+        $tmp[$role['name']] = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     return $tmp;
 }
 
 // récupère les infos d'un utilisateur en fonction de son 'username' (utilisé pour la connection)
-function GetUserByUsername($username) {
+function SelectUserByUsername($username) {
     $req = 'SELECT * FROM users WHERE username = :username';
     $sql = MyPdo()->prepare($req);
     $sql->bindParam(':username', $username, PDO::PARAM_STR);
@@ -63,7 +91,7 @@ function GetUserByUsername($username) {
 }
 
 // récupère les infos d'un utilisateur en fonction de son id
-function GetUserById($id) {
+function SelectUserById($id) {
     $req = 'SELECT * FROM users WHERE id_user = :id';
     $sql = MyPdo()->prepare($req);
     $sql->bindParam(':id', $id, PDO::PARAM_INT);

@@ -10,7 +10,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere ou teste des d
             $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_ENCODED);
             $password = sha1(filter_input(INPUT_POST, 'password', FILTER_SANITIZE_ENCODED));
 
-            $user = GetUserByUsername($username); // on récupere les données de l'utilisateur grace a son nom d'utilisateur
+            $user = SelectUserByUsername($username); // on récupere les données de l'utilisateur grace a son nom d'utilisateur
 
             if($user == null) // si l'on ne récupère rien, ca veut dire que ce nom d'utilisateur n'existe pas, donc on informe l'utilisateurgrace a l'erreur en GET
                 $myGet = '?msg=wrongUn';
@@ -58,7 +58,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere ou teste des d
         </header>
         <?php
         if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null){ // si l'utilisateur est connecter il peut se deconnecter
-            $user = GetUserById($_SESSION['id_connected']);
+            $user = SelectUserById($_SESSION['id_connected']);
 
             echo '<h1>Hello ' . $user['username'] . '</h1>';
         } else {

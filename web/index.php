@@ -13,7 +13,9 @@ require_once('inc.dao.php');
     </head>
     <body>
         <header>
-            <?php include_once('inc.navbar.php'); ?>
+            <?php
+            include_once('inc.navbar.php'); 
+            ?>
         </header>
         <section>
             <h1>Overwatch Collection</h1>
