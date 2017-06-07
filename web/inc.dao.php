@@ -93,12 +93,13 @@ function SelectHeroesInArrayOfRole() {
     foreach (SelectRoles() as $role) {
         $sql->bindParam(':id', $role['id_role'], PDO::PARAM_INT);
         $sql->execute();
-        $tmp[$role['name']] = $sql->fetchAll(PDO::FETCH_ASSOC);
+        $tmpReturn[$role['name']] = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    return $tmp;
+    return $tmpReturn;
 }
 
+// recupère tous les objets d'un heros et les range d'abord par catégorie et ensuite par rareté
 function SelectRewardsInArrayOfQualityAndTypeByIdHero($id){
     $req = 'SELECT rewards.id_reward, rewards.name, rewards.cost, rewards.id_currency, rewards.id_event
             FROM rewards 
@@ -117,11 +118,14 @@ function SelectRewardsInArrayOfQualityAndTypeByIdHero($id){
             $sql->bindParam(':id_quality', $quality['id_quality'], PDO::PARAM_INT);
             $sql->bindParam(':id_hero', $id, PDO::PARAM_INT);
             $sql->execute();
-            $tmp[$rewardType['name']][$quality['name']] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+            $tmp = $sql->fetchAll(PDO::FETCH_ASSOC); // afin de ne pas mettre du vide dans le tableau
+            if(isset($tmp[0]))
+                $tmpReturn[$rewardType['name']][$quality['name']] = $tmp;
         }
     }
 
-    return $tmp;
+    return $tmpReturn;
 }
 
 // récupère les infos d'un utilisateur en fonction de son 'username' (utilisé pour la connection)

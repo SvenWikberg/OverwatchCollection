@@ -27,7 +27,7 @@ require_once('inc.dao.php');
             echo $display;
             ?>
         </section>
-        <section id="heros_abilities">
+        <section id="hero_abilities">
             <?php
             $abilities = SelectAbilitiesByIdHero($_GET['id']); // retourne les capacité du heros
             $nb_col_max = 2; // nombre de colonnes maximum pour les tableaux de heros
@@ -55,9 +55,28 @@ require_once('inc.dao.php');
             echo $display;
             ?>
         </section>
-        <section id="heroes_rewards">
+        <section id="hero_rewards">
             <?php
-            print_rr(SelectRewardsInArrayOfQualityAndTypeByIdHero($_GET['id']));
+            $rewards_array = SelectRewardsInArrayOfQualityAndTypeByIdHero($_GET['id']);
+            $display = '';
+
+            foreach ($rewards_array as $key => $type) {
+                $quality_count = count($type);
+                $display .= '<div class="rewards_type" style="width:' . ($quality_count == 4 ? '100' : $quality_count * 25 - 0.5) . '%">';
+                $display .= '<h2>' .$key. '</h2>';
+                $display .= '<div>';
+                foreach ($type as $key => $quality) {
+                    $display .= '<ul style="height:200px; width:170px; overflow:hidden; overflow-y:scroll;">';
+                    foreach ($quality as $key => $reward) {
+                        $display .= '<li>' .$reward['name']. '</li>';
+                    }
+                    $display .= '</ul>';
+                }
+                $display .= '</div>';
+                $display .= '</div>';
+            }
+
+            echo $display;
             ?>
         </section>
     </body>
