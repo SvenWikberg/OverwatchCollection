@@ -17,7 +17,7 @@ require_once('inc.dao.php');
         </header>
         <section id="hero_info">
             <?php
-            $hero = SelectHeroById($_GET['id']);
+            $hero = SelectHeroById($_GET['id']); // retourne l'enregistrement du heros dans la base
 
             $display = '<h1>' .$hero['name']. '</h1>';
             $display .= '<p>' .$hero['description']. '</p>';
@@ -29,7 +29,7 @@ require_once('inc.dao.php');
         </section>
         <section id="heros_abilities">
             <?php
-            $abilities = SelectAbilitiesByIdHero($_GET['id']);
+            $abilities = SelectAbilitiesByIdHero($_GET['id']); // retourne les capacité du heros
             $nb_col_max = 2; // nombre de colonnes maximum pour les tableaux de heros
             $nb_col_current = 0; // nombre de colonnes actuelle
 
@@ -53,6 +53,11 @@ require_once('inc.dao.php');
             $display .= '</table>';
 
             echo $display;
+            ?>
+        </section>
+        <section id="heroes_rewards">
+            <?php
+            print_rr(SelectRewardsInArrayOfQualityAndTypeByIdHero($_GET['id']));
             ?>
         </section>
     </body>

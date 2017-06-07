@@ -44,6 +44,7 @@ function SelectHeroById($id) {
     return $sql->fetch(PDO::FETCH_ASSOC);
 }
 
+// récupere les capacités d'un hero garce a son id
 function SelectAbilitiesByIdHero($id){
     $req = 'SELECT abilities.* 
             FROM abilities 
@@ -66,8 +67,26 @@ function SelectRoles() {
     return $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// A FAIRE AVEC FOREACH ID_ROLE
-function SelectHeroesInArrayByRole() { 
+// récupère toutes les qualitiés/raretés des objets dans l'ordre de base/de l'id
+function SelectQualities() {
+    $req = 'SELECT * FROM qualities';
+    $sql = MyPdo()->prepare($req);
+    $sql->execute();
+
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// récupère tous les type d'objets dans l'ordre de base/de l'id
+function SelectRewardTypes() {
+    $req = 'SELECT * FROM reward_types';
+    $sql = MyPdo()->prepare($req);
+    $sql->execute();
+
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// recupere tous les heros et les range par role dans un tableau
+function SelectHeroesInArrayOfRole() { 
     $req = 'SELECT * FROM heroes WHERE id_role = :id';
     $sql = MyPdo()->prepare($req);
 
@@ -75,6 +94,31 @@ function SelectHeroesInArrayByRole() {
         $sql->bindParam(':id', $role['id_role'], PDO::PARAM_INT);
         $sql->execute();
         $tmp[$role['name']] = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    return $tmp;
+}
+
+function SelectRewardsInArrayOfQualityAndTypeByIdHero($id){
+    $req = 'SELECT rewards.id_reward, rewards.name, rewards.cost, rewards.id_currency, rewards.id_event
+            FROM rewards 
+            JOIN qualities ON qualities.id_quality = rewards.id_quality
+            JOIN reward_types ON reward_types.id_reward_type = rewards.id_reward_type
+            JOIN heroes ON heroes.id_hero = rewards.id_hero
+            WHERE qualities.id_quality = :id_quality
+            AND reward_types.id_reward_type = :id_reward_type
+            AND heroes.id_hero = :id_hero
+            ORDER BY rewards.name';
+    $sql = MyPdo()->prepare($req);
+
+    foreach (SelectRewardTypes() as $rewardType) {
+        foreach (SelectQualities() as $quality) {
+            $sql->bindParam(':id_reward_type', $rewardType['id_reward_type'], PDO::PARAM_INT);
+            $sql->bindParam(':id_quality', $quality['id_quality'], PDO::PARAM_INT);
+            $sql->bindParam(':id_hero', $id, PDO::PARAM_INT);
+            $sql->execute();
+            $tmp[$rewardType['name']][$quality['name']] = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
 
     return $tmp;

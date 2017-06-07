@@ -17,7 +17,7 @@ require_once('inc.dao.php');
         </header>
         <section id="heroes">
             <?php
-            $heroes_array = SelectHeroesInArrayByRole(); // retourne un tableau, trié par role, de tableau de héros
+            $heroes_array = SelectHeroesInArrayOfRole(); // retourne un tableau, trié par role, de tableau de héros
             $display = '';
             $nb_col_max = 4; // nombre de colonnes maximum pour les tableaux de heros
             $nb_col_current = 0; // nombre de colonnes actuelle
