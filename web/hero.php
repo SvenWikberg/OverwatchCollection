@@ -57,20 +57,22 @@ require_once('inc.dao.php');
         </section>
         <section id="hero_rewards">
             <?php
-            $rewards_array = SelectRewardsInArrayOfQualityAndTypeByIdHero($_GET['id']);
+            $rewards_array = SelectRewardsInArrayOfQualityAndTypeByIdHero($_GET['id']); // retourne un tableau de rewards
             $display = '';
 
             foreach ($rewards_array as $key => $type) {
-                $quality_count = count($type);
+                $quality_count = count($type); // on compte le nobre de boite il y par catégorie afin de definir la taille de cell-ci
                 $display .= '<div class="rewards_type" style="width:' . ($quality_count == 4 ? '100' : $quality_count * 25 - 0.5) . '%">';
                 $display .= '<h2>' .$key. '</h2>';
                 $display .= '<div>';
                 foreach ($type as $key => $quality) {
-                    $display .= '<ul style="height:200px; width:170px; overflow:hidden; overflow-y:scroll;">';
+                    $display .= '<div>';
+                    $display .= '<h3>' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:scroll;">';
                     foreach ($quality as $key => $reward) {
                         $display .= '<li>' .$reward['name']. '</li>';
                     }
                     $display .= '</ul>';
+                    $display .= '</div>';
                 }
                 $display .= '</div>';
                 $display .= '</div>';
