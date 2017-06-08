@@ -104,6 +104,23 @@ function SelectEventById($id) {
     return $sql->fetch(PDO::FETCH_ASSOC);
 }
 
+// récupère tous les utilisateurs dans l'ordre alphabetique
+function SelectUsers() {
+    $req = 'SELECT * FROM users ORDER BY username ASC';
+    $sql = MyPdo()->prepare($req);
+    $sql->execute();
+
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// modifie l'enregistrement d'un utilisateur en les replacant par les parametres de la fonction
+function UpdateUserByIdNoPwd($id, $username, $email){
+    $req = "UPDATE users SET username='$username', email='$email' WHERE id_user=:id";
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id', $id, PDO::PARAM_INT);
+    $sql->execute();
+}
+
 
 // recupere tous les heros et les range par role dans un tableau
 function SelectHeroesInArrayOfRole() { 

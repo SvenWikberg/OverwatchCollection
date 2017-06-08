@@ -18,6 +18,13 @@ header ul{
     flex-wrap: wrap;
 }
 
+section#index div.flex_row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
 section#heroes{
     display: flex;
     flex-direction: row;
@@ -69,5 +76,13 @@ section#event_info div{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+section#account_info div#title{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
     flex-wrap: wrap;
 }
