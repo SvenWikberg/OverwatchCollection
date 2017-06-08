@@ -19,7 +19,7 @@ require_once('inc.dao.php');
         </header>
         <section>
             <h1>Overwatch Collection</h1>
-            <p>Bienvenue sur Overwatch Collection! Le site qui vous permet enfin d'avoir un suivi de vos objets dans Overwatch.
+            <p>Bienvenue sur Overwatch Collection! Le site qui vous permet enfin d'avoir un suivi de vos objets dans Overwatch™.
              Vous n'avez pas besoins de créer compte si vous voulez seulement naviguer parmis les héros et les objets, par contre
              si vous voulez pouvoir sélectionner des objets et avoir un suivis ainsi que des statistiques, vous êtes obligé d'avoir 
              compte.</p>

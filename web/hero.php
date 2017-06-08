@@ -17,7 +17,7 @@ require_once('inc.dao.php');
         </header>
         <section id="hero_info">
             <?php
-            $hero = SelectHeroById($_GET['id']); // retourne l'enregistrement du heros dans la base
+            $hero = SelectHeroById($_GET['id']); // retourne l'enregistrement du heros depuis la base
 
             $display = '<h1>' .$hero['name']. '</h1>';
             $display .= '<p>' .$hero['description']. '</p>';
@@ -61,13 +61,13 @@ require_once('inc.dao.php');
             $display = '';
 
             foreach ($rewards_array as $key => $type) {
-                $quality_count = count($type); // on compte le nobre de boite il y par catégorie afin de definir la taille de cell-ci
+                $quality_count = count($type); // on compte le nombre de boite il y par catégorie afin de definir la taille de cell-ci
                 $display .= '<div class="rewards_type" style="width:' . ($quality_count == 4 ? '100' : $quality_count * 25 - 0.5) . '%">';
                 $display .= '<h2>' .$key. '</h2>';
                 $display .= '<div>';
                 foreach ($type as $key => $quality) {
                     $display .= '<div>';
-                    $display .= '<h3>' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:scroll;">';
+                    $display .= '<h3>' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
                     foreach ($quality as $key => $reward) {
                         $display .= '<li>' .$reward['name']. '</li>';
                     }

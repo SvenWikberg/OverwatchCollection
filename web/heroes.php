@@ -31,7 +31,7 @@ require_once('inc.dao.php');
 
                     if($nb_col_current == 1) // si le nombre de colonne actuelle vaut 1, c'est qu'on est au debut d'une nouvelle ligne donc on ouvre une balise <tr>
                         $display .= '<tr>';
-                    $display .= '<td><a href="hero.php?id=' .$hero['id_hero']. '"><img src="img/icon.png" alt="' .$hero['name']. '"><div>' .$hero['name']. '</div></a></td>';
+                    $display .= '<td><a href="hero.php?id=' .$hero['id_hero']. '"><img src="img/icon_hero.png" alt="' .$hero['name']. '"><div>' .$hero['name']. '</div></a></td>';
                     if($nb_col_current == $nb_col_max){ // si le nombre de colonne actuelle vaut le nombre de colonne max, c'est qu'on est a la fin de la ligne donc on ferme une balise <tr>
                         $display .= '</tr>';
                         $nb_col_current = 0;

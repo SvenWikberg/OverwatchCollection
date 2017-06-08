@@ -64,3 +64,10 @@ section#hero_rewards div div div{
     display: flex;
     flex-direction: column;
 }
+
+section#event_info div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}

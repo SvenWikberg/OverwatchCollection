@@ -4,7 +4,7 @@ require_once('config/config_db.php');
 /////////////////////
 function print_rr($value){
     echo '<pre>';
-    print_r($value);
+    var_dump($value);
     echo '</pre>';
 }
 /////////////////////
@@ -85,6 +85,26 @@ function SelectRewardTypes() {
     return $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// récupère tous les événements dans l'ordre chronologique de la date de debut
+function SelectEvents() {
+    $req = 'SELECT * FROM events ORDER BY events.start_date ASC';
+    $sql = MyPdo()->prepare($req);
+    $sql->execute();
+
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// récupère un evenement grace a son id
+function SelectEventById($id) {
+    $req = 'SELECT * FROM events WHERE id_event = :id';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id', $id, PDO::PARAM_INT);
+    $sql->execute();
+
+    return $sql->fetch(PDO::FETCH_ASSOC);
+}
+
+
 // recupere tous les heros et les range par role dans un tableau
 function SelectHeroesInArrayOfRole() { 
     $req = 'SELECT * FROM heroes WHERE id_role = :id';
@@ -117,6 +137,37 @@ function SelectRewardsInArrayOfQualityAndTypeByIdHero($id){
             $sql->bindParam(':id_reward_type', $rewardType['id_reward_type'], PDO::PARAM_INT);
             $sql->bindParam(':id_quality', $quality['id_quality'], PDO::PARAM_INT);
             $sql->bindParam(':id_hero', $id, PDO::PARAM_INT);
+            $sql->execute();
+
+            $tmp = $sql->fetchAll(PDO::FETCH_ASSOC); // afin de ne pas mettre du vide dans le tableau
+            if(isset($tmp[0]))
+                $tmpReturn[$rewardType['name']][$quality['name']] = $tmp;
+        }
+    }
+
+    return $tmpReturn;
+}
+
+// recupère tous les objets d'un evenement et les range d'abord par catégorie et ensuite par rareté
+function SelectRewardsInArrayOfQualityAndTypeByIdEvent($id){ 
+    // il y a une jointure externe (LEFT JOIN) dans la requête car pas tous les objet qu'on veut récupérer on un hero qui leur est associé
+    $req = 'SELECT rewards.id_reward, rewards.name as r_name, rewards.cost, rewards.id_currency, rewards.id_hero, heroes.name as h_name
+            FROM rewards 
+            JOIN qualities ON qualities.id_quality = rewards.id_quality
+            JOIN reward_types ON reward_types.id_reward_type = rewards.id_reward_type
+            JOIN events ON events.id_event = rewards.id_event
+            LEFT JOIN heroes ON heroes.id_hero = rewards.id_hero
+            WHERE qualities.id_quality = :id_quality
+            AND reward_types.id_reward_type = :id_reward_type
+            AND events.id_event = :id_event
+            ORDER BY rewards.name';
+    $sql = MyPdo()->prepare($req);
+
+    foreach (SelectRewardTypes() as $rewardType) {
+        foreach (SelectQualities() as $quality) {
+            $sql->bindParam(':id_reward_type', $rewardType['id_reward_type'], PDO::PARAM_INT);
+            $sql->bindParam(':id_quality', $quality['id_quality'], PDO::PARAM_INT);
+            $sql->bindParam(':id_event', $id, PDO::PARAM_INT);
             $sql->execute();
 
             $tmp = $sql->fetchAll(PDO::FETCH_ASSOC); // afin de ne pas mettre du vide dans le tableau
