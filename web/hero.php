@@ -55,7 +55,7 @@ require_once('inc.dao.php');
             echo $display;
             ?>
         </section>
-        <section id="hero_rewards">
+        <section class="rewards">
             <?php
             $rewards_array = SelectRewardsInArrayOfQualityAndTypeByIdHero($_GET['id']); // retourne un tableau de rewards
             $display = '';

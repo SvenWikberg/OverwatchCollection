@@ -4,7 +4,7 @@ require_once('config/config_db.php');
 /////////////////////
 function print_rr($value){
     echo '<pre>';
-    var_dump($value);
+    print_r($value);
     echo '</pre>';
 }
 /////////////////////
@@ -137,6 +137,33 @@ function SelectRewardsInArrayOfQualityAndTypeByIdHero($id){
             $sql->bindParam(':id_reward_type', $rewardType['id_reward_type'], PDO::PARAM_INT);
             $sql->bindParam(':id_quality', $quality['id_quality'], PDO::PARAM_INT);
             $sql->bindParam(':id_hero', $id, PDO::PARAM_INT);
+            $sql->execute();
+
+            $tmp = $sql->fetchAll(PDO::FETCH_ASSOC); // afin de ne pas mettre du vide dans le tableau
+            if(isset($tmp[0]))
+                $tmpReturn[$rewardType['name']][$quality['name']] = $tmp;
+        }
+    }
+
+    return $tmpReturn;
+}
+
+// recupère tous les objets qui ne sont pas associé a un hero et les range d'abord par catégorie et ensuite par rareté
+function SelectRewardsInArrayOfQualityAndTypeByNoIdHero(){
+    $req = 'SELECT rewards.id_reward, rewards.name, rewards.cost, rewards.id_currency, rewards.id_event
+            FROM rewards 
+            JOIN qualities ON qualities.id_quality = rewards.id_quality
+            JOIN reward_types ON reward_types.id_reward_type = rewards.id_reward_type
+            WHERE qualities.id_quality = :id_quality
+            AND reward_types.id_reward_type = :id_reward_type
+            AND (rewards.id_hero = 0 OR rewards.id_hero = NULL)
+            ORDER BY rewards.name';
+    $sql = MyPdo()->prepare($req);
+
+    foreach (SelectRewardTypes() as $rewardType) {
+        foreach (SelectQualities() as $quality) {
+            $sql->bindParam(':id_reward_type', $rewardType['id_reward_type'], PDO::PARAM_INT);
+            $sql->bindParam(':id_quality', $quality['id_quality'], PDO::PARAM_INT);
             $sql->execute();
 
             $tmp = $sql->fetchAll(PDO::FETCH_ASSOC); // afin de ne pas mettre du vide dans le tableau

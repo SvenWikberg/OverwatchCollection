@@ -36,7 +36,7 @@ section#hero_abilities{
     margin-top: 50px;
 }
 
-section#hero_rewards{
+section.rewards{
     margin-top: 50px;
     display: flex;
     flex-direction: row;
@@ -44,23 +44,23 @@ section#hero_rewards{
     flex-wrap: wrap;
 }
 
-section#hero_rewards div{
+section.rewards div{
     display: flex;
     flex-direction: column;
 }
 
-section#hero_rewards div.rewards_type{
+section.rewards div.rewards_type{
     border: 1px solid black;
 }
 
-section#hero_rewards div div{
+section.rewards div div{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
 }
 
-section#hero_rewards div div div{
+section.rewards div div div{
     display: flex;
     flex-direction: column;
 }
