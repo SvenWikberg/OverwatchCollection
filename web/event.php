@@ -3,6 +3,8 @@
 session_start();
 
 require_once('inc.dao.php');
+
+include_once('inc.func.user_reward.php'); 
 ?>
 <html lang="en">
     <head>
@@ -42,7 +44,11 @@ require_once('inc.dao.php');
                     $display .= '<h3>' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
                     foreach ($quality as $key => $reward) {
                         // si un hero est associer a l'objet on l'affiche sinon, on affiche juste le nom de l'objet
-                        $display .= '<li>' .$reward['r_name'].($reward['h_name'] != NULL ? ' / ' . $reward['h_name'] : ''). '</li>';
+                        // le lien envoie 3 variables en GET:
+                            // id, qui est l'id de l'evenement, qui sert a revenir sur la bonne page
+                            // action, qui signifie qu'il faut faire une action en l'occurrence ajouter un "user_reward"
+                            // id_reward, qui est l'id de l'objet sur lequel on a cliqué
+                        $display .= '<li><a href="event.php?id=' .$_GET['id']. '&action=add_user_reward&id_reward=' .$reward['id_reward']. '">' .$reward['r_name'].($reward['h_name'] != NULL ? ' / ' . $reward['h_name'] : ''). '</a></li>';
                     }
                     $display .= '</ul>';
                     $display .= '</div>';

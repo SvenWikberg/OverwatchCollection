@@ -31,7 +31,7 @@ include_once('inc.func.user_reward.php');
         $display = '';
 
         foreach ($rewards_array as $key => $type) {
-            $quality_count = count($type); // on compte le nombre de boite il y par catégorie afin de definir la taille de cell-ci
+            $quality_count = count($type); // on compte le nombre de boite il y par catégorie afin de definir la taille de celle-ci
             $display .= '<div class="rewards_type" style="width:' . ($quality_count == 4 ? '100' : $quality_count * 25 - 0.5) . '%">';
             $display .= '<h2>' .$key. '</h2>';
             $display .= '<div>';
@@ -39,7 +39,10 @@ include_once('inc.func.user_reward.php');
                 $display .= '<div>';
                 $display .= '<h3>' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
                 foreach ($quality as $key => $reward) {
-                    $display .= '<li><a href="rewards.php?action=add_user_reward&id=' .$reward['id_reward']. '">' .$reward['name']. '</a></li>';
+                    // le lien envoie 2 variables en GET:
+                            // action, qui signifie qu'il faut faire une action en l'occurrence ajouter un "user_reward"
+                            // id_reward, qui est l'id de l'objet sur lequel on a cliqué
+                    $display .= '<li><a href="rewards.php?action=add_user_reward&id_reward=' .$reward['id_reward']. '">' .$reward['name']. '</a></li>';
                 }
                 $display .= '</ul>';
                 $display .= '</div>';
