@@ -50,7 +50,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
             $banned_users = SelectBannedUsers(); // retourne les utilisateurs bannis (sans les admins)
             ?>
             <h1>Admin Page</h1>
-            <table border="1">
+            <table border="1"style="width:100%;">
                 <tr>
                     <td><h2>Clean Users</h2></td>
                     <td><h2>Banned Users</h2></td>
