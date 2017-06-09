@@ -157,6 +157,14 @@ function UnbanUserById($id) {
     $sql->execute();
 }
 
+// supprime l'utilisateur selectionné
+function DeleteUserById($id) {
+    $req = 'DELETE FROM users WHERE id_user = :id';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id', $id, PDO::PARAM_INT);
+    $sql->execute();
+}
+
 // modifie l'enregistrement d'un utilisateur en les replacant par les parametres de la fonction
 function UpdateUserByIdNoPwd($id, $username, $email){
     $req = "UPDATE users SET username='$username', email='$email' WHERE id_user=:id";
@@ -178,6 +186,39 @@ function SelectHeroesInArrayOfRole() {
     }
 
     return $tmpReturn;
+}
+
+// ajoute un enregistrement a la table de liaison "users_rewards"
+function InsertUserReward($id_user, $id_reward){
+    $req = 'INSERT INTO users_rewards(id_user, id_reward) VALUES (:id_user,:id_reward)';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+    $sql->bindParam(':id_reward', $id_reward, PDO::PARAM_INT);
+    $sql->execute();
+}
+
+// supprime un enregistrement a la table de liaison "users_rewards"
+function DeleteUserReward($id_user, $id_reward){
+    $req = 'DELETE FROM users_rewards WHERE id_user = :id_user AND id_reward = :id_reward';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+    $sql->bindParam(':id_reward', $id_reward, PDO::PARAM_INT);
+    $sql->execute();
+}
+
+// test si un enregistrement de la table de liaison "users_rewards" existe, oui -> true / non -> false
+function IsCreatedUserReward($id_user, $id_reward){
+    $req = 'SELECT * FROM users_rewards WHERE id_user = :id_user AND id_reward = :id_reward';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+    $sql->bindParam(':id_reward', $id_reward, PDO::PARAM_INT);
+    $sql->execute();
+
+    if($sql->fetchAll(PDO::FETCH_ASSOC) == NULL){
+        return false;
+    } else {
+        return true;
+    }
 }
 
 // recupère tous les objets d'un heros et les range d'abord par catégorie et ensuite par rareté

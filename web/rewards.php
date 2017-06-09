@@ -3,6 +3,8 @@
 session_start();
 
 require_once('inc.dao.php');
+
+include_once('inc.func.user_reward.php'); 
 ?>
 <html lang="en">
     <head>
@@ -20,7 +22,7 @@ require_once('inc.dao.php');
         <section id="others_rewards_info">
             <h1>Others Rewards</h1>
             <p>Certains des objets cosmetiques dans Overwatch n'ont pas d'héros associé, par exemple les icones d'utilisateurs, étant donnée qu'elle 
-            sont faites pour le compte et pas un héro spécifique. C'est sur cette page qu'elle seront répértoriées, par catégorie et par rareté.</p>
+            sont faites pour le compte et pas un héro spécifique. C'est sur cette page qu'elle seront répértoriées, triées par catégories et par raretés.</p>
         </section>
         <section class="rewards">
         <?php
@@ -37,7 +39,7 @@ require_once('inc.dao.php');
                 $display .= '<div>';
                 $display .= '<h3>' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
                 foreach ($quality as $key => $reward) {
-                    $display .= '<li>' .$reward['name']. '</li>';
+                    $display .= '<li><a href="rewards.php?action=add_user_reward&id=' .$reward['id_reward']. '">' .$reward['name']. '</a></li>';
                 }
                 $display .= '</ul>';
                 $display .= '</div>';

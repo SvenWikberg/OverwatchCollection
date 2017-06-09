@@ -15,13 +15,16 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
 
             if($user == null) // si l'on ne récupère rien, ca veut dire que ce nom d'utilisateur n'existe pas, donc on informe l'utilisateurgrace a l'erreur en GET
                 $myGet = '?msg=wrongUn';
-            else
-                if ($user['password'] == $password) { // si tout est juste on connecte l'utilisateur
-                    $_SESSION['id_connected'] = $user['id_user'];
-                }
-                else { // si le mot de passe est faux on met l'erreur en GET afin d'informer l'utilisateur 
-                    $myGet = '?msg=wrongPw';
-                }
+            elseif ($user['password'] == $password) { // si tout est juste 
+                    if($user['is_banned'] == 1) { // si l'utilisateur est banni
+                        $myGet = '?msg=banned';
+                    } else{ // si l'utilisateur n'est pas banni,on le connecte
+                        $_SESSION['id_connected'] = $user['id_user'];
+                    }
+            }
+            else { // si le mot de passe est faux on met l'erreur en GET afin d'informer l'utilisateur 
+                $myGet = '?msg=wrongPw';
+            }
         }
     } elseif ($_GET['action'] == 'signin') { // l'action sign in ajoute un nouvel utilisateur la dans la base avec les données entrées
         if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['email'])) {
@@ -92,6 +95,8 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
         if(isset($_GET['msg']))
             if($_GET['msg'] == 'wrongUn') // le nom d'utilisateur n'est pas valide
                 $display .= 'Username not valid';
+            elseif($_GET['msg'] == 'banned') // l'utilisateur est banni
+                $display .= 'Your account has been banned';
                         
         $display .=    '<br>
                         Password:<br>
@@ -99,7 +104,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
 
         if(isset($_GET['msg']))
             if($_GET['msg'] == 'wrongPw') // le mot de passe n'est pas valide
-                $display .= 'Password not valid';
+                $display .= 'Wrong password';
                         
         $display .=    '<br><br>
                         <input type="submit" value="Submit">
@@ -123,7 +128,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
         $display .=             '<br>Email* :<br>
                                 <input maxlength="100" required type="mail" name="email" value=""><br>
                                 Password* :<br>
-                                <input required type="password" name="password" value=""><br><br>
+                                <input minlength="8" required type="password" name="password" value=""><br><br>
                                 <input type="submit" value="Submit">
                             </fieldset>
                         </form>
