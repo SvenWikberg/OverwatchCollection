@@ -4,7 +4,7 @@ session_start();
 
 require_once('inc.dao.php');
 
-if (isset($_GET['action'])) { // selon l'action, la page recupere ou teste des données differentes
+if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou process des données differentes
     $myget = '';
     if($_GET['action'] == 'login'){ // l'action login teste les données entrées par l'utilisateur afin de le connecter ou pas
         if (isset($_POST['username']) && isset($_POST['password'])) {
@@ -87,7 +87,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere ou teste des d
                         <fieldset>
                         <legend><h2>Login</h2></legend>
                         Username :<br>
-                        <input required type="text" name="username" value="">';
+                        <input maxlength="25" required type="text" name="username" value="">';
                         
         if(isset($_GET['msg']))
             if($_GET['msg'] == 'wrongUn') // le nom d'utilisateur n'est pas valide
@@ -114,14 +114,14 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere ou teste des d
                             <fieldset>
                                 <legend><h2>Sign in</h2></legend>
                                 Username* :<br>
-                                <input required type="text" name="username" value="">';
+                                <input maxlength="25" required type="text" name="username" value="">';
 
         if(isset($_GET['msg']))
             if($_GET['msg'] == 'duplicate') // nom d'utilisateur ou email deja utilisé
                 $display .= 'Username or email already used';
 
         $display .=             '<br>Email* :<br>
-                                <input required type="mail" name="email" value=""><br>
+                                <input maxlength="100" required type="mail" name="email" value=""><br>
                                 Password* :<br>
                                 <input required type="password" name="password" value=""><br><br>
                                 <input type="submit" value="Submit">
@@ -141,9 +141,18 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere ou teste des d
             $display .= '<a href="user.php?goto=updating"><img style="width:20px; height:20px;" src="img/icon_edit.png" alt="Edit"></a>';
             $display .= '</div>';
 
-            $display .= '<div>';
+            $display .= '<div class="flex_row">';
+            $display .= '<div style="width:70%;">';
             $display .= '<p>Username: ' . $user['username'] . '</p>';
             $display .= '<p>Email: ' . $user['email'] . '</p>';
+            $display .= '</div>';
+
+            if($user['is_admin']){
+                $display .= '<div>';
+                $display .= '<a href="admin.php">Admin page</a>';
+                $display .= '</div>';
+            }
+
             $display .= '</div>';
             $display .= '</section>';
             
@@ -161,9 +170,9 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere ou teste des d
 
         $display .= '<form action="user.php?action=update" method="post">';
         $display .= 'Username: ';
-        $display .= '<input required type="text" name="username" value="' . $user['username'] . '"><br>';
+        $display .= '<input maxlength="25" required type="text" name="username" value="' . $user['username'] . '"><br>';
         $display .= 'Email: ';
-        $display .= '<input required type="email" name="email" value="' . $user['email'] . '"><br><br>';
+        $display .= '<input maxlength="100" required type="email" name="email" value="' . $user['email'] . '"><br><br>';
         $display .= '<input type="submit" value="Submit">';
         $display .= '</form>';
         

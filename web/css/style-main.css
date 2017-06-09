@@ -18,7 +18,7 @@ header ul{
     flex-wrap: wrap;
 }
 
-section#index div.flex_row{
+.flex_row{
     display: flex;
     flex-direction: row;
     justify-content: space-between;

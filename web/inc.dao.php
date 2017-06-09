@@ -104,13 +104,57 @@ function SelectEventById($id) {
     return $sql->fetch(PDO::FETCH_ASSOC);
 }
 
-// récupère tous les utilisateurs dans l'ordre alphabetique
+// récupère tous les utilisateurs dans l'ordre alphabetique 
 function SelectUsers() {
     $req = 'SELECT * FROM users ORDER BY username ASC';
     $sql = MyPdo()->prepare($req);
     $sql->execute();
 
     return $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// récupère tous les utilisateurs non-bannis dans l'ordre alphabetique (avec les admin en premier)
+function SelectCleanUsers() {
+    $req = 'SELECT * FROM users WHERE is_banned = 0 ORDER BY is_admin DESC, username ASC';
+    $sql = MyPdo()->prepare($req);
+    $sql->execute();
+
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// récupère tous les utilisateurs non-bannis dans l'ordre alphabetique (qui ne sont pas admin)
+function SelectCleanUsersNoAdmin() {
+    $req = 'SELECT * FROM users WHERE is_banned = 0 AND is_admin = 0 ORDER BY username ASC';
+    $sql = MyPdo()->prepare($req);
+    $sql->execute();
+
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+// récupère tous les utilisateurs bannis dans l'ordre alphabetique (qui ne sont pas admin)
+function SelectBannedUsers() {
+    $req = 'SELECT * FROM users WHERE is_banned = 1 AND is_admin = 0 ORDER BY username ASC';
+    $sql = MyPdo()->prepare($req);
+    $sql->execute();
+
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// modifie le champ is_banned de l'utilisateur selectionné, en le passant a 1 (pour bannir l'utilisateur)
+function BanUserById($id) {
+    $req = 'UPDATE users SET is_banned=1 WHERE id_user = :id';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id', $id, PDO::PARAM_INT);
+    $sql->execute();
+}
+
+// modifie le champ is_banned de l'utilisateur selectionné, en le passant a 0 (pour débannir l'utilisateur)
+function UnbanUserById($id) {
+    $req = 'UPDATE users SET is_banned=0 WHERE id_user = :id';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id', $id, PDO::PARAM_INT);
+    $sql->execute();
 }
 
 // modifie l'enregistrement d'un utilisateur en les replacant par les parametres de la fonction

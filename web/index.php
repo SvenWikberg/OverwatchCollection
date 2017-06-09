@@ -37,12 +37,12 @@ require_once('inc.dao.php');
                 <div style="width: 25%; border: 1px solid black;">
                     <h2>Users list</h2>
                     <?php
-                    $users = SelectUsers(); // recupere le utilisateur depuis la base de données
+                    $users = SelectCleanUsers(); // recupere le utilisateur depuis la base de données
 
                     $display = '';
                     $display .= '<ul style="height:100%; width:170px; overflow:hidden; overflow-y:auto;">';
                     foreach ($users as $user) {
-                        $display .= '<li>' .$user['username']. '</li>';
+                        $display .= '<li>' .$user['username'] . ($user['is_admin'] == 1 ? ' / Admin' : ''). '</li>';
                     }
                     $display .= '</ul>';
 
