@@ -76,7 +76,6 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
             if(isset($_GET['msg']))
                 if($_GET['msg'] == 'signOk') // l'utilisateur a bien ete ajouté a la base de donnees'
                     echo '<h2>Account created</h2>';
-
                 DisplayLogin();
                 DisplaySignin();
         }

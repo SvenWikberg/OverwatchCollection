@@ -19,47 +19,24 @@ include_once('inc.func.user_reward.php');
         </header>
         <section id="hero_info">
             <?php
-            $hero = SelectHeroById($_GET['id']); // retourne l'enregistrement du heros depuis la base
-
-            $display = '<h1>' .$hero['name']. '</h1>';
-            $display .= '<p>' .$hero['description']. '</p>';
-            $display .= '<div><p>Real Name: ' .$hero['real_name']. '</p><p>Base Of Operations: ' .$hero['base_of_operations']. '</p></div>';
-            $display .= '<div><p>Health: ' .$hero['health']. '</p><p>Armour: ' .$hero['armour']. '</p><p>Shield: ' .$hero['shield']. '</p></div>';
-            $display .= '<div><p>Affiliation: ' .$hero['affiliation']. '</p><p>Difficulty: ' .$hero['difficulty']. '</p></div>';
-            echo $display;
+            DisplayHeroInfo($_GET['id']);
             ?>
         </section>
         <section id="hero_abilities">
             <?php
-            $abilities = SelectAbilitiesByIdHero($_GET['id']); // retourne les capacité du heros
-            $nb_col_max = 2; // nombre de colonnes maximum pour les tableaux de heros
-            $nb_col_current = 0; // nombre de colonnes actuelle
-
-            $display = '<table border="1">';
-            foreach ($abilities as $ability) {
-                $nb_col_current++;
-
-                if($nb_col_current == 1) // si le nombre de colonne actuelle vaut 1, c'est qu'on est au debut d'une nouvelle ligne donc on ouvre une balise <tr>
-                    $display .= '<tr>';
-                $display .= '<td width=' . 100 / $nb_col_max . '%>';
-                $display .= '<h2>' .$ability['name']. '</h2><p>' .$ability['description']. '</p>';
-                $display .= ($ability['is_ultimate'] == 0 ? '<h3>Ultimate</h3>' : '');
-                $display .= '</td>';
-
-
-                if($nb_col_current == $nb_col_max){ // si le nombre de colonne actuelle vaut le nombre de colonne max, c'est qu'on est a la fin de la ligne donc on ferme une balise <tr>
-                    $display .= '</tr>';
-                    $nb_col_current = 0;
-                }
-            }
-            $display .= '</table>';
-
-            echo $display;
+            DisplayHeroAbilities($_GET['id']);
             ?>
         </section>
         <section class="rewards">
             <?php
-            $rewards_array = SelectRewardsInArrayOfQualityAndTypeByIdHero($_GET['id']); // retourne un tableau de rewards
+            DisplayHeroRewards($_GET['id']);
+            ?>
+        </section>
+    </body>
+</html>
+<?php
+    function DisplayHeroRewards($id){
+        $rewards_array = SelectRewardsInArrayOfQualityAndTypeByIdHero($id); // retourne un tableau de rewards
             $display = '';
 
             foreach ($rewards_array as $key => $type) {
@@ -75,7 +52,13 @@ include_once('inc.func.user_reward.php');
                             // id, qui est l'id de l'heros, qui sert a revenir sur la bonne page
                             // action, qui signifie qu'il faut faire une action en l'occurrence ajouter un "user_reward"
                             // id_reward, qui est l'id de l'objet sur lequel on a cliqué
-                        $display .= '<li><a href="hero.php?id=' .$_GET['id']. '&action=add_user_reward&id_reward=' .$reward['id_reward']. '">' .$reward['name']. '</a></li>';
+                        $display .= '<li>';
+                        if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null) // si un utilisateur est connecté on affiche le liens pour ajouter/enlever un "user_reward" 
+                            $display .= '<a href="hero.php?id=' .$id. '&action=add_user_reward&id_reward=' .$reward['id_reward']. '">';
+                        $display .= $reward['name'];
+                        if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null)
+                            $display .= '</a>';    
+                        $display .= '</li>';
                     }
                     $display .= '</ul>';
                     $display .= '</div>';
@@ -85,7 +68,43 @@ include_once('inc.func.user_reward.php');
             }
 
             echo $display;
-            ?>
-        </section>
-    </body>
-</html>
+    }
+
+    function DisplayHeroAbilities($id){
+        $abilities = SelectAbilitiesByIdHero($id); // retourne les capacité du heros
+        $nb_col_max = 2; // nombre de colonnes maximum pour les tableaux de heros
+        $nb_col_current = 0; // nombre de colonnes actuelle
+
+        $display = '<table border="1">';
+        foreach ($abilities as $ability) {
+            $nb_col_current++;
+
+            if($nb_col_current == 1) // si le nombre de colonne actuelle vaut 1, c'est qu'on est au debut d'une nouvelle ligne donc on ouvre une balise <tr>
+                $display .= '<tr>';
+            $display .= '<td width=' . 100 / $nb_col_max . '%>';
+            $display .= '<h2>' .$ability['name']. '</h2><p>' .$ability['description']. '</p>';
+            $display .= ($ability['is_ultimate'] == 0 ? '<h3>Ultimate</h3>' : '');
+            $display .= '</td>';
+
+
+            if($nb_col_current == $nb_col_max){ // si le nombre de colonne actuelle vaut le nombre de colonne max, c'est qu'on est a la fin de la ligne donc on ferme une balise <tr>
+                $display .= '</tr>';
+                $nb_col_current = 0;
+            }
+        }
+        $display .= '</table>';
+
+        echo $display;
+    }
+
+    function DisplayHeroInfo($id){
+        $hero = SelectHeroById($id); // retourne l'enregistrement du heros depuis la base
+
+        $display = '<h1>' .$hero['name']. '</h1>';
+        $display .= '<p>' .$hero['description']. '</p>';
+        $display .= '<div><p>Real Name: ' .$hero['real_name']. '</p><p>Base Of Operations: ' .$hero['base_of_operations']. '</p></div>';
+        $display .= '<div><p>Health: ' .$hero['health']. '</p><p>Armour: ' .$hero['armour']. '</p><p>Shield: ' .$hero['shield']. '</p></div>';
+        $display .= '<div><p>Affiliation: ' .$hero['affiliation']. '</p><p>Difficulty: ' .$hero['difficulty']. '</p></div>';
+        echo $display;
+    }
+?>

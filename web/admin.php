@@ -45,10 +45,6 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
             ?>
         </header>
         <section id="admin">
-            <?php
-            $clean_users = SelectCleanUsersNoAdmin(); // retourne les utilisateur non bannis (sans les admins)
-            $banned_users = SelectBannedUsers(); // retourne les utilisateurs bannis (sans les admins)
-            ?>
             <h1>Admin Page</h1>
             <table border="1"style="width:100%;">
                 <tr>
@@ -57,38 +53,49 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
                 </tr>
                 <tr>
                     <td>
-                        <ul style="height:100%; width:300px; overflow:hidden; overflow-y:auto;">
-                            <?php
-                            $display = '';
-
-                            foreach ($clean_users as $clean_user) { // on affiche les utilisateur non bannis
-                                $display .= '<li>' . $clean_user['username'] . ' / ' . $clean_user['email'];
-                                $display .= '&nbsp<a href="admin.php?action=ban&id=' . $clean_user['id_user'] . '"><img style="width:15px; height:15px;" src="img/icon_ban.png" alt="Delete"></a>';
-                                $display .= '</li>';
-                            }
-
-                            echo $display;
-                            ?>
-                        </ul>
+                        <?php
+                        DisplayListCleanUser();
+                        ?>
                     </td>
                     <td>
-                        <ul style="height:100%; width:300px; overflow:hidden; overflow-y:auto;">
-                            <?php
-                            $display = '';
-
-                            foreach ($banned_users as $banned_user) { // on affiche les utilisateur bannis
-                                $display .= '<li>' . $banned_user['username'] . ' / ' . $banned_user['email'];
-                                $display .= '&nbsp<a href="admin.php?action=unban&id=' . $banned_user['id_user'] . '"><img style="width:15px; height:15px;" src="img/icon_ban.png" alt="Unban"></a>';
-                                $display .= '&nbsp<a href="admin.php?action=delete&id=' . $banned_user['id_user'] . '"><img style="width:15px; height:15px;" src="img/icon_delete.png" alt="Delete"></a>';
-                                $display .= '</li>';
-                            }
-
-                            echo $display;
-                            ?>
-                        </ul>
+                        <?php
+                        DisplayListBannedUser();
+                        ?>
                     </td>
                 </tr>
             </table>
         </section>
     </body>
 </html>
+<?php
+    function DisplayListCleanUser(){
+        $clean_users = SelectCleanUsersNoAdmin(); // retourne les utilisateur non bannis (sans les admins)
+        $display = '';
+
+        $display .= '<ul style="height:100%; width:300px; overflow:hidden; overflow-y:auto;">';
+        foreach ($clean_users as $clean_user) { // on affiche les utilisateur non bannis
+            $display .= '<li>' . $clean_user['username'] . ' / ' . $clean_user['email'];
+            $display .= '&nbsp<a href="admin.php?action=ban&id=' . $clean_user['id_user'] . '"><img style="width:15px; height:15px;" src="img/icon_ban.png" alt="Delete"></a>';
+            $display .= '</li>';
+        }
+        $display .= '</ul>';
+
+        echo $display;
+    }
+
+    function DisplayListBannedUser(){
+        $banned_users = SelectBannedUsers(); // retourne les utilisateurs bannis (sans les admins)
+        $display = '';
+
+        $display .= '<ul style="height:100%; width:300px; overflow:hidden; overflow-y:auto;">';
+        foreach ($banned_users as $banned_user) { // on affiche les utilisateur bannis
+            $display .= '<li>' . $banned_user['username'] . ' / ' . $banned_user['email'];
+            $display .= '&nbsp<a href="admin.php?action=unban&id=' . $banned_user['id_user'] . '"><img style="width:15px; height:15px;" src="img/icon_ban.png" alt="Unban"></a>';
+            $display .= '&nbsp<a href="admin.php?action=delete&id=' . $banned_user['id_user'] . '"><img style="width:15px; height:15px;" src="img/icon_delete.png" alt="Delete"></a>';
+            $display .= '</li>';
+        }
+        $display .= '</ul>';
+
+        echo $display;
+    }
+?>

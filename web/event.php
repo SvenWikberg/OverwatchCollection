@@ -21,17 +21,19 @@ include_once('inc.func.user_reward.php');
         </header>
         <section id="event_info">
             <?php
-            $event = SelectEventById($_GET['id']); // retourne l'enregistrement de l'événement depuis la base
-
-            $display = '<h1>' .$event['name']. '</h1>';
-            $display .= '<div><p>Beginning Date: ' .$event['start_date']. '</p><p>Ending Date: ' .$event['end_date']. '</p></div>';
-
-            echo $display;
+            DisplayEventInfo($_GET['id']);
             ?>
         </section>
         <section class="rewards">
             <?php
-            $rewards_array = SelectRewardsInArrayOfQualityAndTypeByIdEvent($_GET['id']); // retourne un tableau de rewards
+            DisplayEventRewards($_GET['id']);
+            ?>
+        </section>
+    </body>
+</html>
+<?php
+    function DisplayEventRewards($id){
+        $rewards_array = SelectRewardsInArrayOfQualityAndTypeByIdEvent($id); // retourne un tableau de rewards
             $display = '';
 
             foreach ($rewards_array as $key => $type) {
@@ -48,7 +50,13 @@ include_once('inc.func.user_reward.php');
                             // id, qui est l'id de l'evenement, qui sert a revenir sur la bonne page
                             // action, qui signifie qu'il faut faire une action en l'occurrence ajouter un "user_reward"
                             // id_reward, qui est l'id de l'objet sur lequel on a cliqué
-                        $display .= '<li><a href="event.php?id=' .$_GET['id']. '&action=add_user_reward&id_reward=' .$reward['id_reward']. '">' .$reward['r_name'].($reward['h_name'] != NULL ? ' / ' . $reward['h_name'] : ''). '</a></li>';
+                        $display .= '<li>'; 
+                        if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null) // si un utilisateur est connecté on affiche le liens pour ajouter/enlever un "user_reward" 
+                            $display .= '<a href="event.php?id=' .$id. '&action=add_user_reward&id_reward=' .$reward['id_reward']. '">';
+                        $display .= $reward['r_name'] . ($reward['h_name'] != NULL ? ' / ' . $reward['h_name'] : '');
+                        if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null)
+                            $display .= '</a>';    
+                        $display .= '</li>';
                     }
                     $display .= '</ul>';
                     $display .= '</div>';
@@ -58,7 +66,14 @@ include_once('inc.func.user_reward.php');
             }
 
             echo $display;
-            ?>
-        </section>
-    </body>
-</html>
+    }
+
+    function DisplayEventInfo($id){
+        $event = SelectEventById($id); // retourne l'enregistrement de l'événement depuis la base
+
+        $display = '<h1>' .$event['name']. '</h1>';
+        $display .= '<div><p>Beginning Date: ' .$event['start_date']. '</p><p>Ending Date: ' .$event['end_date']. '</p></div>';
+
+        echo $display;
+    }
+?>

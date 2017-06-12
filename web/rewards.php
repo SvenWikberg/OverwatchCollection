@@ -26,6 +26,13 @@ include_once('inc.func.user_reward.php');
         </section>
         <section class="rewards">
         <?php
+            DisplayOtherRewards();
+        ?>
+        </section>
+    </body>
+</html>
+<?php
+    function DisplayOtherRewards(){
         $rewards_array = SelectRewardsInArrayOfQualityAndTypeByNoIdHero(); // retourne un tableau de rewards
 
         $display = '';
@@ -42,7 +49,13 @@ include_once('inc.func.user_reward.php');
                     // le lien envoie 2 variables en GET:
                             // action, qui signifie qu'il faut faire une action en l'occurrence ajouter un "user_reward"
                             // id_reward, qui est l'id de l'objet sur lequel on a cliqué
-                    $display .= '<li><a href="rewards.php?action=add_user_reward&id_reward=' .$reward['id_reward']. '">' .$reward['name']. '</a></li>';
+                    $display .= '<li>';
+                    if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null) // si un utilisateur est connecté on affiche le liens pour ajouter/enlever un "user_reward" 
+                        $display .= '<a href="rewards.php?action=add_user_reward&id_reward=' .$reward['id_reward']. '">';
+                    $display .= $reward['name'];
+                    if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null)
+                        $display .= '</a>';
+                    $display .= '</li>';
                 }
                 $display .= '</ul>';
                 $display .= '</div>';
@@ -52,7 +65,5 @@ include_once('inc.func.user_reward.php');
         }
 
         echo $display;
-        ?>
-        </section>
-    </body>
-</html>
+    }
+?>
