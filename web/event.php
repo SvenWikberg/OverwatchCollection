@@ -5,6 +5,7 @@ session_start();
 require_once('inc.dao.php');
 
 include_once('inc.func.user_reward.php'); 
+
 ?>
 <html lang="en">
     <head>
@@ -34,6 +35,8 @@ include_once('inc.func.user_reward.php');
 <?php
     function DisplayEventRewards($id){
         $rewards_array = SelectRewardsInArrayOfQualityAndTypeByIdEvent($id); // retourne un tableau de rewards
+        
+        if($rewards_array){
             $display = '';
 
             foreach ($rewards_array as $key => $type) {
@@ -66,14 +69,21 @@ include_once('inc.func.user_reward.php');
             }
 
             echo $display;
+        } else {
+            header('Location: events.php');
+        }
     }
 
     function DisplayEventInfo($id){
         $event = SelectEventById($id); // retourne l'enregistrement de l'événement depuis la base
 
-        $display = '<h1>' .$event['name']. '</h1>';
-        $display .= '<div><p>Beginning Date: ' .$event['start_date']. '</p><p>Ending Date: ' .$event['end_date']. '</p></div>';
+        if($event){
+            $display = '<h1>' .$event['name']. '</h1>';
+            $display .= '<div><p>Beginning Date: ' .$event['start_date']. '</p><p>Ending Date: ' .$event['end_date']. '</p></div>';
 
-        echo $display;
+            echo $display;
+        } else {
+            header('Location: events.php');
+        }
     }
 ?>

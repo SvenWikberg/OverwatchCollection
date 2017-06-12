@@ -41,10 +41,16 @@ function SelectHeroById($id) {
     $sql->bindParam(':id', $id, PDO::PARAM_INT);
     $sql->execute();
 
-    return $sql->fetch(PDO::FETCH_ASSOC);
+    $tmpReturn = $sql->fetch(PDO::FETCH_ASSOC);
+
+    if(count($tmpReturn) > 0){
+        return $tmpReturn;
+    } else {
+        return false;
+    }
 }
 
-// récupere les capacités d'un hero garce a son id
+// récupere les capacités d'un hero grace a son id
 function SelectAbilitiesByIdHero($id){
     $req = 'SELECT abilities.* 
             FROM abilities 
@@ -55,7 +61,13 @@ function SelectAbilitiesByIdHero($id){
     $sql->bindParam(':id', $id, PDO::PARAM_INT);
     $sql->execute();
 
-    return $sql->fetchAll(PDO::FETCH_ASSOC);
+    $tmpReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    if(count($tmpReturn) > 0){
+        return $tmpReturn;
+    } else {
+        return false;
+    }
 }
 
 // récupère tous les roles dans l'ordre de base/de l'id
@@ -101,7 +113,13 @@ function SelectEventById($id) {
     $sql->bindParam(':id', $id, PDO::PARAM_INT);
     $sql->execute();
 
-    return $sql->fetch(PDO::FETCH_ASSOC);
+    $tmpReturn = $sql->fetch(PDO::FETCH_ASSOC);
+
+    if(count($tmpReturn) > 0){
+        return $tmpReturn;
+    } else {
+        return false;
+    }
 }
 
 // récupère tous les utilisateurs dans l'ordre alphabetique 
@@ -247,7 +265,11 @@ function SelectRewardsInArrayOfQualityAndTypeByIdHero($id){
         }
     }
 
-    return $tmpReturn;
+    if(count($tmpReturn) > 0){
+        return $tmpReturn;
+    } else {
+        return false;
+    }
 }
 
 // recupère tous les objets qui ne sont pas associé a un hero et les range d'abord par catégorie et ensuite par rareté
@@ -305,7 +327,11 @@ function SelectRewardsInArrayOfQualityAndTypeByIdEvent($id){
         }
     }
 
-    return $tmpReturn;
+    if(count($tmpReturn) > 0){ // s'il n'y a rien, il y a un porbleme, donc on retourne false
+        return $tmpReturn;
+    } else {
+        return false;
+    }
 }
 
 // récupère les infos d'un utilisateur en fonction de son 'username' (utilisé pour la connection)
