@@ -239,6 +239,80 @@ function IsCreatedUserReward($id_user, $id_reward){
     }
 }
 
+// les id des objets d'un hero qu'un utilisateur a selectionné
+function SelectIdRewardsByIdHeroAndIdUser($id_hero, $id_user){
+    $req = 'SELECT rewards.id_reward
+            FROM rewards 
+            JOIN users_rewards ON users_rewards.id_reward = rewards.id_reward
+            JOIN heroes ON heroes.id_hero = rewards.id_hero
+            WHERE heroes.id_hero = :id_hero
+            AND users_rewards.id_user = :id_user';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id_hero', $id_hero, PDO::PARAM_INT);
+    $sql->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+    $sql->execute();
+
+    $tmpReturn = NULL;
+
+    $cmpt = 0;
+    foreach($sql->fetchAll(PDO::FETCH_ASSOC) as $array){
+        $tmpReturn[$cmpt] = $array['id_reward'];
+
+        $cmpt++;
+    }
+
+    return $tmpReturn;
+}
+
+// les id des objets d'un evenement qu'un utilisateur a selectionné
+function SelectIdRewardsByIdEventAndIdUser($id_event, $id_user){
+    $req = 'SELECT rewards.id_reward
+            FROM rewards 
+            JOIN users_rewards ON users_rewards.id_reward = rewards.id_reward
+            JOIN events ON events.id_event = rewards.id_event
+            WHERE rewards.id_event = :id_event
+            AND users_rewards.id_user = :id_user';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id_event', $id_event, PDO::PARAM_INT);
+    $sql->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+    $sql->execute();
+
+    $tmpReturn = NULL;
+
+    $cmpt = 0;
+    foreach($sql->fetchAll(PDO::FETCH_ASSOC) as $array){
+        $tmpReturn[$cmpt] = $array['id_reward'];
+
+        $cmpt++;
+    }
+
+    return $tmpReturn;
+}
+
+// les id des objets d'aucun hero qu'un utilisateur a selectionné
+function SelectIdRewardsByNoIdHeroAndIdUser($id_user){
+    $req = 'SELECT rewards.id_reward
+            FROM rewards 
+            JOIN users_rewards ON users_rewards.id_reward = rewards.id_reward
+            JOIN events ON events.id_event = rewards.id_event
+            WHERE (rewards.id_hero = 0 OR rewards.id_hero = NULL)
+            AND users_rewards.id_user = :id_user';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+    $sql->execute();
+
+    $tmpReturn = NULL;
+
+    $cmpt = 0;
+    foreach($sql->fetchAll(PDO::FETCH_ASSOC) as $array){
+        $tmpReturn[$cmpt] = $array['id_reward'];
+
+        $cmpt++;
+    }
+
+    return $tmpReturn;
+}
+
 // recupère tous les objets d'un heros et les range d'abord par catégorie et ensuite par rareté
 function SelectRewardsInArrayOfQualityAndTypeByIdHero($id){
     $req = 'SELECT rewards.id_reward, rewards.name, rewards.cost, rewards.id_currency, rewards.id_event

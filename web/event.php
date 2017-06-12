@@ -36,6 +36,11 @@ include_once('inc.func.user_reward.php');
     function DisplayEventRewards($id){
         $rewards_array = SelectRewardsInArrayOfQualityAndTypeByIdEvent($id); // retourne un tableau de rewards
         
+        if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null) // si l'utilisateur est connecter on va chercher l'id des rewards qu'il a
+            $rewards_owned = SelectIdRewardsByIdEventAndIdUser($id, $_SESSION['id_connected']);
+        else
+            $rewards_owned = false;
+
         if($rewards_array){
             $display = '';
 
@@ -48,6 +53,14 @@ include_once('inc.func.user_reward.php');
                     $display .= '<div>';
                     $display .= '<h3>' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
                     foreach ($quality as $key => $reward) {
+
+                        // si l'id reward correspond a un element du tableau alors l'utilisateur a la reward, donc on l'affiche vert
+                        if($rewards_owned && in_array($reward['id_reward'], $rewards_owned)){
+                            $css_string = 'style="color: #00c600;"';
+                        } else{
+                            $css_string = '';
+                        }
+
                         // si un hero est associer a l'objet on l'affiche sinon, on affiche juste le nom de l'objet
                         // le lien envoie 3 variables en GET:
                             // id, qui est l'id de l'evenement, qui sert a revenir sur la bonne page
@@ -55,7 +68,7 @@ include_once('inc.func.user_reward.php');
                             // id_reward, qui est l'id de l'objet sur lequel on a cliqué
                         $display .= '<li>'; 
                         if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null) // si un utilisateur est connecté on affiche le liens pour ajouter/enlever un "user_reward" 
-                            $display .= '<a href="event.php?id=' .$id. '&action=add_user_reward&id_reward=' .$reward['id_reward']. '">';
+                            $display .= '<a ' .$css_string. ' href="event.php?id=' .$id. '&action=add_user_reward&id_reward=' .$reward['id_reward']. '">';
                         $display .= $reward['r_name'] . ($reward['h_name'] != NULL ? ' / ' . $reward['h_name'] : '');
                         if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null)
                             $display .= '</a>';    

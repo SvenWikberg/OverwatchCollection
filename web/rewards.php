@@ -35,6 +35,11 @@ include_once('inc.func.user_reward.php');
     function DisplayOtherRewards(){
         $rewards_array = SelectRewardsInArrayOfQualityAndTypeByNoIdHero(); // retourne un tableau de rewards
 
+        if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null) // si l'utilisateur est connecter on va chercher l'id des rewards qu'il a
+            $rewards_owned = SelectIdRewardsByNoIdHeroAndIdUser($_SESSION['id_connected']);
+        else
+            $rewards_owned = false;
+
         $display = '';
 
         foreach ($rewards_array as $key => $type) {
@@ -46,12 +51,20 @@ include_once('inc.func.user_reward.php');
                 $display .= '<div>';
                 $display .= '<h3>' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
                 foreach ($quality as $key => $reward) {
+
+                    // si l'id reward correspond a un element du tableau alors l'utilisateur a la reward, donc on l'affiche vert
+                    if($rewards_owned && in_array($reward['id_reward'], $rewards_owned)){
+                        $css_string = 'style="color: #00c600;"';
+                    } else{
+                        $css_string = '';
+                    }
+
                     // le lien envoie 2 variables en GET:
                             // action, qui signifie qu'il faut faire une action en l'occurrence ajouter un "user_reward"
                             // id_reward, qui est l'id de l'objet sur lequel on a cliqué
                     $display .= '<li>';
                     if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null) // si un utilisateur est connecté on affiche le liens pour ajouter/enlever un "user_reward" 
-                        $display .= '<a href="rewards.php?action=add_user_reward&id_reward=' .$reward['id_reward']. '">';
+                        $display .= '<a ' .$css_string. ' href="rewards.php?action=add_user_reward&id_reward=' .$reward['id_reward']. '">';
                     $display .= $reward['name'];
                     if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null)
                         $display .= '</a>';
