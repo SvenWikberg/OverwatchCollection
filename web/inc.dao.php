@@ -27,7 +27,8 @@ function &MyPdo() {
 
 // récupère tous les heros dans l'ordre de base/de l'id
 function SelectHeroes() {
-    $req = 'SELECT * FROM heroes';
+    $req = 'SELECT id_hero, name, description, id_role, health, armour, shield, real_name, age, height, affiliation, base_of_operations, difficulty 
+            FROM heroes';
     $sql = MyPdo()->prepare($req);
     $sql->execute();
 
@@ -36,7 +37,9 @@ function SelectHeroes() {
 
 // récupère un heros grace a son id
 function SelectHeroById($id) {
-    $req = 'SELECT * FROM heroes WHERE id_hero = :id';
+    $req = 'SELECT id_hero, name, description, id_role, health, armour, shield, real_name, age, height, affiliation, base_of_operations, difficulty 
+            FROM heroes 
+            WHERE id_hero = :id';
     $sql = MyPdo()->prepare($req);
     $sql->bindParam(':id', $id, PDO::PARAM_INT);
     $sql->execute();
@@ -52,7 +55,7 @@ function SelectHeroById($id) {
 
 // récupere les capacités d'un hero grace a son id
 function SelectAbilitiesByIdHero($id){
-    $req = 'SELECT abilities.* 
+    $req = 'SELECT abilities.id_ability, abilities.name, abilities.description, abilities.id_hero, abilities.is_ultimate 
             FROM abilities 
             JOIN heroes ON heroes.id_hero = abilities.id_hero
             WHERE heroes.id_hero = :id
@@ -72,7 +75,7 @@ function SelectAbilitiesByIdHero($id){
 
 // récupère tous les roles dans l'ordre de base/de l'id
 function SelectRoles() {
-    $req = 'SELECT * FROM roles';
+    $req = 'SELECT id_role, name FROM roles';
     $sql = MyPdo()->prepare($req);
     $sql->execute();
 
@@ -81,7 +84,7 @@ function SelectRoles() {
 
 // récupère toutes les qualitiés/raretés des objets dans l'ordre de base/de l'id
 function SelectQualities() {
-    $req = 'SELECT * FROM qualities';
+    $req = 'SELECT id_quality, name FROM qualities';
     $sql = MyPdo()->prepare($req);
     $sql->execute();
 
@@ -90,7 +93,7 @@ function SelectQualities() {
 
 // récupère tous les type d'objets dans l'ordre de base/de l'id
 function SelectRewardTypes() {
-    $req = 'SELECT * FROM reward_types';
+    $req = 'SELECT id_reward_type, name FROM reward_types';
     $sql = MyPdo()->prepare($req);
     $sql->execute();
 
@@ -99,7 +102,7 @@ function SelectRewardTypes() {
 
 // récupère tous les événements dans l'ordre chronologique de la date de debut
 function SelectEvents() {
-    $req = 'SELECT * FROM events ORDER BY events.start_date ASC';
+    $req = 'SELECT id_event, name, start_date, end_date FROM events ORDER BY events.start_date ASC';
     $sql = MyPdo()->prepare($req);
     $sql->execute();
 
@@ -108,7 +111,7 @@ function SelectEvents() {
 
 // récupère un evenement grace a son id
 function SelectEventById($id) {
-    $req = 'SELECT * FROM events WHERE id_event = :id';
+    $req = 'SELECT id_event, name, start_date, end_date FROM events WHERE id_event = :id';
     $sql = MyPdo()->prepare($req);
     $sql->bindParam(':id', $id, PDO::PARAM_INT);
     $sql->execute();
@@ -124,7 +127,7 @@ function SelectEventById($id) {
 
 // récupère tous les utilisateurs dans l'ordre alphabetique 
 function SelectUsers() {
-    $req = 'SELECT * FROM users ORDER BY username ASC';
+    $req = 'SELECT id_user, username, email, is_banned, is_admin FROM users ORDER BY username ASC';
     $sql = MyPdo()->prepare($req);
     $sql->execute();
 
@@ -133,7 +136,7 @@ function SelectUsers() {
 
 // récupère tous les utilisateurs non-bannis dans l'ordre alphabetique (avec les admin en premier)
 function SelectCleanUsers() {
-    $req = 'SELECT * FROM users WHERE is_banned = 0 ORDER BY is_admin DESC, username ASC';
+    $req = 'SELECT id_user, username, email, is_banned, is_admin FROM users WHERE is_banned = 0 ORDER BY is_admin DESC, username ASC';
     $sql = MyPdo()->prepare($req);
     $sql->execute();
 
@@ -142,7 +145,7 @@ function SelectCleanUsers() {
 
 // récupère tous les utilisateurs non-bannis dans l'ordre alphabetique (qui ne sont pas admin)
 function SelectCleanUsersNoAdmin() {
-    $req = 'SELECT * FROM users WHERE is_banned = 0 AND is_admin = 0 ORDER BY username ASC';
+    $req = 'SELECT id_user, username, email, is_banned, is_admin FROM users WHERE is_banned = 0 AND is_admin = 0 ORDER BY username ASC';
     $sql = MyPdo()->prepare($req);
     $sql->execute();
 
@@ -152,7 +155,7 @@ function SelectCleanUsersNoAdmin() {
 
 // récupère tous les utilisateurs bannis dans l'ordre alphabetique (qui ne sont pas admin)
 function SelectBannedUsers() {
-    $req = 'SELECT * FROM users WHERE is_banned = 1 AND is_admin = 0 ORDER BY username ASC';
+    $req = 'SELECT id_user, username, email, is_banned, is_admin FROM users WHERE is_banned = 1 AND is_admin = 0 ORDER BY username ASC';
     $sql = MyPdo()->prepare($req);
     $sql->execute();
 
@@ -194,7 +197,7 @@ function UpdateUserByIdNoPwd($id, $username, $email){
 
 // recupere tous les heros et les range par role dans un tableau
 function SelectHeroesInArrayOfRole() { 
-    $req = 'SELECT * FROM heroes WHERE id_role = :id';
+    $req = 'SELECT id_hero, name, id_role FROM heroes WHERE id_role = :id';
     $sql = MyPdo()->prepare($req);
 
     foreach (SelectRoles() as $role) {
@@ -226,7 +229,7 @@ function DeleteUserReward($id_user, $id_reward){
 
 // test si un enregistrement de la table de liaison "users_rewards" existe, oui -> true / non -> false
 function IsCreatedUserReward($id_user, $id_reward){
-    $req = 'SELECT * FROM users_rewards WHERE id_user = :id_user AND id_reward = :id_reward';
+    $req = 'SELECT users_rewards.id_user, users_rewards.id_reward FROM users_rewards WHERE id_user = :id_user AND id_reward = :id_reward';
     $sql = MyPdo()->prepare($req);
     $sql->bindParam(':id_user', $id_user, PDO::PARAM_INT);
     $sql->bindParam(':id_reward', $id_reward, PDO::PARAM_INT);
@@ -410,7 +413,7 @@ function SelectRewardsInArrayOfQualityAndTypeByIdEvent($id){
 
 // récupère les infos d'un utilisateur en fonction de son 'username' (utilisé pour la connection)
 function SelectUserByUsername($username) {
-    $req = 'SELECT * FROM users WHERE username = :username';
+    $req = 'SELECT id_user, username, password, email, is_banned, is_admin FROM users WHERE username = :username';
     $sql = MyPdo()->prepare($req);
     $sql->bindParam(':username', $username, PDO::PARAM_STR);
     $sql->execute();
@@ -420,7 +423,7 @@ function SelectUserByUsername($username) {
 
 // récupère les infos d'un utilisateur en fonction de son id
 function SelectUserById($id) {
-    $req = 'SELECT * FROM users WHERE id_user = :id';
+    $req = 'SELECT id_user, username, password, email, is_banned, is_admin FROM users WHERE id_user = :id';
     $sql = MyPdo()->prepare($req);
     $sql->bindParam(':id', $id, PDO::PARAM_INT);
     $sql->execute();
