@@ -34,7 +34,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>index</title>
+        <title>OverwatchCollection</title>
         <link rel="stylesheet" href="css/style-main.css">
         <script src="script.js"></script>
     </head>

@@ -152,7 +152,6 @@ function SelectCleanUsersNoAdmin() {
     return $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 
-
 // récupère tous les utilisateurs bannis dans l'ordre alphabetique (qui ne sont pas admin)
 function SelectBannedUsers() {
     $req = 'SELECT id_user, username, email, is_banned, is_admin FROM users WHERE is_banned = 1 AND is_admin = 0 ORDER BY username ASC';
@@ -193,7 +192,6 @@ function UpdateUserByIdNoPwd($id, $username, $email){
     $sql->bindParam(':id', $id, PDO::PARAM_INT);
     $sql->execute();
 }
-
 
 // recupere tous les heros et les range par role dans un tableau
 function SelectHeroesInArrayOfRole() { 
@@ -446,5 +444,53 @@ function InsertUser($username, $email, $password) {
         return $e->errorInfo[1];
     }
     return null;
+}
+
+// compte le nombre d'objets en tous
+function SelectCountReward(){
+    $req = 'SELECT COUNT(id_reward) AS c FROM rewards';
+    $sql = MyPdo()->prepare($req);
+    $sql->execute();
+
+    return $sql->fetch(PDO::FETCH_ASSOC)['c'];
+}
+
+// compte le nombre d'objets d'un utilisateur
+function SelectCountRewardByIdUser($id){
+    $req = 'SELECT COUNT(id_reward) AS c FROM users_rewards WHERE id_user = :id';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id', $id, PDO::PARAM_INT);
+    $sql->execute();
+
+    return $sql->fetch(PDO::FETCH_ASSOC)['c'];
+}
+
+// compte le nombre d'objets qu'a chaque evenement
+function SelectCountRewardEvents(){
+    $req = 'SELECT events.name, COUNT(rewards.id_reward) AS c 
+            FROM rewards 
+            JOIN events ON rewards.id_event = events.id_event 
+            GROUP BY events.id_event
+            ORDER BY events.start_date';
+    $sql = MyPdo()->prepare($req);
+    $sql->execute();
+
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// compte le nombre d'objets qu'a l'utilisateur pour chaque evenement
+function SelectCountRewardEventsByIdUser($id){
+    $req = 'SELECT events.name, COUNT(rewards.id_reward) AS c
+            FROM rewards
+            JOIN events ON rewards.id_event = events.id_event
+            JOIN users_rewards ON users_rewards.id_reward = rewards.id_reward
+            WHERE users_rewards.id_user = :id
+            GROUP BY events.id_event
+            ORDER BY events.start_date';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id', $id, PDO::PARAM_INT);
+    $sql->execute();
+
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>

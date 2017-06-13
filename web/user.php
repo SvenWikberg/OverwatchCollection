@@ -3,6 +3,7 @@
 session_start();
 
 require_once('inc.dao.php');
+require_once('inc.func.display.php');
 
 if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou process des données differentes
     $myget = '';
@@ -55,7 +56,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>user</title>
+        <title>OverwatchCollection</title>
         <link rel="stylesheet" href="css/style-main.css">
         <script src="script.js"></script>
     </head>
@@ -67,10 +68,12 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
         if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null){ // si l'utilisateur est connecter il peut se deconnecter
             if(isset($_GET['goto'])){
                 if($_GET['goto'] == 'updating'){
-                    DisplayAccountInfoUpdating();
+                    DisplayAccountInfoUpdating($_SESSION['id_connected']);
                 }
             } else {
-                DisplayAccountInfo();
+                DisplayAccountInfo($_SESSION['id_connected']);
+
+                DisplayAccountStats($_SESSION['id_connected']);
             }
         } else {
             if(isset($_GET['msg']))
@@ -134,8 +137,8 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
         echo $display;
     }
 
-    function DisplayAccountInfo(){ // affiche les informations du compte de l'utilisateur connecté
-            $user = SelectUserById($_SESSION['id_connected']);
+    function DisplayAccountInfo($id_user){ // affiche les informations du compte de l'utilisateur connecté
+            $user = SelectUserById($id_user);
 
             $display = '';
             $display .= '<section id="account_info">';
@@ -162,8 +165,8 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
             echo $display;
     }
 
-    function DisplayAccountInfoUpdating(){ // affiche le formulaire qui permet de modifier les infos de l'utilisateur
-        $user = SelectUserById($_SESSION['id_connected']);
+    function DisplayAccountInfoUpdating($id_user){ // affiche le formulaire qui permet de modifier les infos de l'utilisateur
+        $user = SelectUserById($id_user);
 
         $display = '';
         $display .= '<section id="account_info_updating">';
@@ -179,6 +182,50 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
         $display .= '<input type="submit" value="Submit">';
         $display .= '</form>';
         
+        echo $display;
+    }
+
+    function DisplayAccountStats($id_user){ // affiche la section des statistiques d'un utilisateur'
+        echo '<section id="account_stats">';
+        DisplayMainProgressBar($id_user);
+        DisplayEventsProgressBar($id_user);
+        echo '</section>';
+    }
+
+    function DisplayMainProgressBar($id_user){ // affiche la barre de progression principale
+        $all_count = SelectCountReward();  // retourne le nombre d'objet en tout
+        $user_count = SelectCountRewardByIdUser($id_user); // retourne le nombre d'objet d'un utilisateur
+        $display = '';
+
+        $display .= '<div>';
+        $display .= '<div class="flex_row">';
+        $display .= '<h3>All rewards</h3>';
+        $display .= '<h3>' . $user_count . '/' . $all_count . '</h3>';
+        $display .= '</div>';
+        $display .= GetProgressBar($all_count, $user_count, 100, 30);
+        $display .= '</div>';
+        echo $display;
+    }
+
+    function DisplayEventsProgressBar($id_user){ // affiche les barre de progression des evenements
+        $array_events_count = SelectCountRewardEvents(); // retourne le nombre d'objets de chaque evenement
+        $array_events_user_count = SelectCountRewardEventsByIdUser($id_user); // retourne le nombre d'objets de l'utilisateur pour chaque evenement
+        $display = '';
+
+        $display .= '<div>';
+        $display .= '<h3>Events</h3>';
+        $display .= '<div class="flex_row">';
+        for ($i=0; $i < count($array_events_count); $i++) { 
+            $display .= '<div style="width:48%;">';
+            $display .= '<div class="flex_row">';
+            $display .= '<h4>' . $array_events_count[$i]['name'] . '</h4>';
+            $display .= '<h4>' . $array_events_user_count[$i]['c'] . '/' . $array_events_count[$i]['c'] . '</h4>';
+            $display .= '</div>';
+            $display .= GetProgressBar($array_events_count[$i]['c'], $array_events_user_count[$i]['c'], 100, 25);
+            $display .= '</div>';
+        }
+        $display .= '</div>';
+        $display .= '</div>';
         echo $display;
     }
 ?>
