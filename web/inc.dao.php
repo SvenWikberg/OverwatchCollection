@@ -9,6 +9,7 @@ function print_rr($value){
 }
 /////////////////////
 
+// récupère l'objet php de donnée qui sert a dialoguer avec une base de donnée
 function &MyPdo() {
     static $dbc = NULL;
     try {
@@ -318,12 +319,9 @@ function SelectIdRewardsByNoIdHeroAndIdUser($id_user){
 function SelectRewardsInArrayOfQualityAndTypeByIdHero($id){
     $req = 'SELECT rewards.id_reward, rewards.name, rewards.cost, rewards.id_currency, rewards.id_event
             FROM rewards 
-            JOIN qualities ON qualities.id_quality = rewards.id_quality
-            JOIN reward_types ON reward_types.id_reward_type = rewards.id_reward_type
-            JOIN heroes ON heroes.id_hero = rewards.id_hero
-            WHERE qualities.id_quality = :id_quality
-            AND reward_types.id_reward_type = :id_reward_type
-            AND heroes.id_hero = :id_hero
+            WHERE rewards.id_quality = :id_quality
+            AND rewards.id_reward_type = :id_reward_type
+            AND rewards.id_hero = :id_hero
             ORDER BY rewards.name';
     $sql = MyPdo()->prepare($req);
 
@@ -351,10 +349,8 @@ function SelectRewardsInArrayOfQualityAndTypeByIdHero($id){
 function SelectRewardsInArrayOfQualityAndTypeByNoIdHero(){
     $req = 'SELECT rewards.id_reward, rewards.name, rewards.cost, rewards.id_currency, rewards.id_event
             FROM rewards 
-            JOIN qualities ON qualities.id_quality = rewards.id_quality
-            JOIN reward_types ON reward_types.id_reward_type = rewards.id_reward_type
-            WHERE qualities.id_quality = :id_quality
-            AND reward_types.id_reward_type = :id_reward_type
+            WHERE rewards.id_quality = :id_quality
+            AND rewards.id_reward_type = :id_reward_type
             AND (rewards.id_hero = 0 OR rewards.id_hero = NULL)
             ORDER BY rewards.name';
     $sql = MyPdo()->prepare($req);
@@ -379,13 +375,10 @@ function SelectRewardsInArrayOfQualityAndTypeByIdEvent($id){
     // il y a une jointure externe (LEFT JOIN) dans la requête car pas tous les objet qu'on veut récupérer on un hero qui leur est associé
     $req = 'SELECT rewards.id_reward, rewards.name as r_name, rewards.cost, rewards.id_currency, rewards.id_hero, heroes.name as h_name
             FROM rewards 
-            JOIN qualities ON qualities.id_quality = rewards.id_quality
-            JOIN reward_types ON reward_types.id_reward_type = rewards.id_reward_type
-            JOIN events ON events.id_event = rewards.id_event
             LEFT JOIN heroes ON heroes.id_hero = rewards.id_hero
-            WHERE qualities.id_quality = :id_quality
-            AND reward_types.id_reward_type = :id_reward_type
-            AND events.id_event = :id_event
+            WHERE rewards.id_quality = :id_quality
+            AND rewards.id_reward_type = :id_reward_type
+            AND rewards.id_event = :id_event
             ORDER BY rewards.name';
     $sql = MyPdo()->prepare($req);
 
