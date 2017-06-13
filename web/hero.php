@@ -27,7 +27,7 @@ include_once('inc.func.user_reward.php');
             DisplayHeroAbilities($_GET['id']);
             ?>
         </section>
-        <section class="rewards">
+        <section id="rewards">
             <?php
             DisplayHeroRewards($_GET['id']);
             ?>

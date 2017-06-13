@@ -24,7 +24,7 @@ include_once('inc.func.user_reward.php');
             <p>Certains des objets cosmetiques dans Overwatch n'ont pas d'héros associé, par exemple les icones d'utilisateurs, étant donnée qu'elle 
             sont faites pour le compte et pas un héro spécifique. C'est sur cette page qu'elle seront répértoriées, triées par catégories et par raretés.</p>
         </section>
-        <section class="rewards">
+        <section id="rewards">
         <?php
             DisplayOtherRewards();
         ?>

@@ -15,6 +15,6 @@ if (isset($_GET['action'])) {
 
     print_rr($_GET);
 
-    header('Location: '. $_SERVER['PHP_SELF'] . (isset($_GET['id']) ? '?id=' . $_GET['id'] : ''));
+    header('Location: '. $_SERVER['PHP_SELF'] . (isset($_GET['id']) ? '?id=' . $_GET['id'] : '') . '#rewards');
 }
 ?>

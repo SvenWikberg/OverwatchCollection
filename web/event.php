@@ -25,7 +25,7 @@ include_once('inc.func.user_reward.php');
             DisplayEventInfo($_GET['id']);
             ?>
         </section>
-        <section class="rewards">
+        <section id="rewards">
             <?php
             DisplayEventRewards($_GET['id']);
             ?>
