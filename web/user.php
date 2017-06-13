@@ -189,6 +189,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
         echo '<section id="account_stats">';
         DisplayMainProgressBar($id_user);
         DisplayEventsProgressBar($id_user);
+        DisplayHeroesProgressBar($id_user);
         echo '</section>';
     }
 
@@ -222,6 +223,28 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
             $display .= '<h4>' . $array_events_user_count[$i]['c'] . '/' . $array_events_count[$i]['c'] . '</h4>';
             $display .= '</div>';
             $display .= GetProgressBar($array_events_count[$i]['c'], $array_events_user_count[$i]['c'], 100, 25);
+            $display .= '</div>';
+        }
+        $display .= '</div>';
+        $display .= '</div>';
+        echo $display;
+    }
+
+     function DisplayHeroesProgressBar($id_user){ // affiche les barre de progression des evenements
+        $array_heroes_count = SelectCountRewardHeroes(); // retourne le nombre d'objets de chaque hero
+        $array_heroes_user_count = SelectCountRewardHeroesByIdUser($id_user); // retourne le nombre d'objets de l'utilisateur pour chaque hero
+        $display = '';
+
+        $display .= '<div>';
+        $display .= '<h3>Events</h3>';
+        $display .= '<div class="flex_row">';
+        for ($i=0; $i < count($array_heroes_count); $i++) { 
+            $display .= '<div style="width:32%;">';
+            $display .= '<div class="flex_row">';
+            $display .= '<h4>' . $array_heroes_count[$i]['name'] . '</h4>';
+            $display .= '<h4>' . $array_heroes_user_count[$i]['c'] . '/' . $array_heroes_count[$i]['c'] . '</h4>';
+            $display .= '</div>';
+            $display .= GetProgressBar($array_heroes_count[$i]['c'], $array_heroes_user_count[$i]['c'], 100, 15);
             $display .= '</div>';
         }
         $display .= '</div>';

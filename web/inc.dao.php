@@ -372,6 +372,7 @@ function SelectRewardsInArrayOfQualityAndTypeByNoIdHero(){
 
 // recupère tous les objets d'un evenement et les range d'abord par catégorie et ensuite par rareté
 function SelectRewardsInArrayOfQualityAndTypeByIdEvent($id){ 
+
     // il y a une jointure externe (LEFT JOIN) dans la requête car pas tous les objet qu'on veut récupérer on un hero qui leur est associé
     $req = 'SELECT rewards.id_reward, rewards.name as r_name, rewards.cost, rewards.id_currency, rewards.id_hero, heroes.name as h_name
             FROM rewards 
@@ -473,15 +474,72 @@ function SelectCountRewardEvents(){
 
 // compte le nombre d'objets qu'a l'utilisateur pour chaque evenement
 function SelectCountRewardEventsByIdUser($id){
-    $req = 'SELECT events.name, COUNT(rewards.id_reward) AS c
-            FROM rewards
-            JOIN events ON rewards.id_event = events.id_event
+    // la 1ere partie de la requete recupere les evenements et les nombre d'objet de l'utilisateur pour cet evenement
+    // la 2eme partie recupére les evenements pou lesquelle l'utilisateur n'a aucun objet 
+    // on fait une union des deux pour avoir tous les evenement
+    $req = '(SELECT events.start_date, events.name, COUNT(users_rewards.id_reward) AS c
+            FROM events
+            JOIN rewards ON rewards.id_event = events.id_event
             JOIN users_rewards ON users_rewards.id_reward = rewards.id_reward
-            WHERE users_rewards.id_user = :id
-            GROUP BY events.id_event
-            ORDER BY events.start_date';
+            WHERE users_rewards.id_user = :id1
+            GROUP BY events.id_event)
+        UNION
+            (SELECT events.start_date, events.name, 0 AS c
+            FROM events
+            WHERE events.id_event NOT IN 
+                (SELECT events.id_event
+                FROM events
+                JOIN rewards ON rewards.id_event = events.id_event
+                JOIN users_rewards ON users_rewards.id_reward = rewards.id_reward
+                WHERE users_rewards.id_user = :id2
+                GROUP BY events.id_event))  
+            ORDER BY start_date ASC';
     $sql = MyPdo()->prepare($req);
-    $sql->bindParam(':id', $id, PDO::PARAM_INT);
+    $sql->bindParam(':id1', $id, PDO::PARAM_INT);
+    $sql->bindParam(':id2', $id, PDO::PARAM_INT);
+    $sql->execute();
+
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// compte le nombre d'objets qu'a chaque hero
+function SelectCountRewardHeroes(){
+    $req = 'SELECT heroes.name, COUNT(rewards.id_reward) AS c 
+            FROM rewards 
+            JOIN heroes ON rewards.id_hero = heroes.id_hero 
+            GROUP BY heroes.id_hero
+            ORDER BY heroes.name';
+    $sql = MyPdo()->prepare($req);
+    $sql->execute();
+
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// compte le nombre d'objets qu'a l'utilisateur pour chaque hero
+function SelectCountRewardHeroesByIdUser($id){
+    // la 1ere partie de la requete recupere les evenements et les nombre d'objet de l'utilisateur pour cet evenement
+    // la 2eme partie recupére les evenements pou lesquelle l'utilisateur n'a aucun objet 
+    // on fait une union des deux pour avoir tous les evenement
+    $req = '(SELECT heroes.name, COUNT(users_rewards.id_reward) AS c
+            FROM heroes
+            JOIN rewards ON rewards.id_hero = heroes.id_hero
+            JOIN users_rewards ON users_rewards.id_reward = rewards.id_reward
+            WHERE users_rewards.id_user = :id1
+            GROUP BY heroes.id_hero)
+        UNION
+            (SELECT heroes.name, 0 AS c
+            FROM heroes
+            WHERE heroes.id_hero NOT IN 
+                (SELECT heroes.id_hero
+	            FROM heroes
+	            JOIN rewards ON rewards.id_hero = heroes.id_hero
+                JOIN users_rewards ON users_rewards.id_reward = rewards.id_reward
+                WHERE users_rewards.id_user = :id2
+                GROUP BY heroes.id_hero))  
+            ORDER BY name ASC';
+    $sql = MyPdo()->prepare($req);
+    $sql->bindParam(':id1', $id, PDO::PARAM_INT);
+    $sql->bindParam(':id2', $id, PDO::PARAM_INT);
     $sql->execute();
 
     return $sql->fetchAll(PDO::FETCH_ASSOC);
