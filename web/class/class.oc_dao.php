@@ -1,6 +1,4 @@
 <?php
-require_once('config/config_db.php');
-
 /////////////////////
 function print_rr($value){
     echo '<pre>';
@@ -8,25 +6,7 @@ function print_rr($value){
     echo '</pre>';
 }
 /////////////////////
-
-class MyPdo{
-    private static $_myPdo;
-
-    public static function GetMyPdo(){
-        try {
-            if (!isset($_myPdo)) {
-                $dbc = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . '', DB_USER, DB_PWD, array(
-                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-                PDO::ATTR_PERSISTENT => true,
-				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-            }
-        } catch (PDOException $e) {
-            print "Erreur !: " . $e->getMessage() . "<br/>";
-            die();
-        }
-        return $dbc;
-    }
-}
+require_once('class/class.my_pdo.php');
 
 class OcDao{
 
@@ -300,7 +280,6 @@ class OcDao{
         $req = 'SELECT rewards.id_reward
                 FROM rewards 
                 JOIN users_rewards ON users_rewards.id_reward = rewards.id_reward
-                JOIN events ON events.id_event = rewards.id_event
                 WHERE (rewards.id_hero = 0 OR rewards.id_hero = NULL)
                 AND users_rewards.id_user = :id_user';
         $sql = MyPdo::GetMyPdo()->prepare($req);

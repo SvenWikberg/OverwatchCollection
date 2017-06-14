@@ -3,7 +3,8 @@
 session_start();
 
 
-require_once('class.dao.php');
+require_once('class/class.oc_dao.php');
+require_once('class/class.oc_display.php');
 
 if(isset($_SESSION['id_connected'])){ // si pas admin, on ne peut pas acceder a cette page
     $user = OcDao::SelectUserById($_SESSION['id_connected']);
@@ -41,7 +42,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
     <body>
         <header>
             <?php
-            include_once('inc.navbar.php'); 
+            OcDisplay::DisplayNavbar();
             ?>
         </header>
         <section id="admin">
@@ -54,12 +55,12 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
                 <tr>
                     <td>
                         <?php
-                        DisplayListCleanUser();
+                        OcDisplay::DisplayListCleanUserWithBan();
                         ?>
                     </td>
                     <td>
                         <?php
-                        DisplayListBannedUser();
+                        OcDisplay::DisplayListBannedUserWithUnbanDelete();
                         ?>
                     </td>
                 </tr>
@@ -67,35 +68,3 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
         </section>
     </body>
 </html>
-<?php
-    function DisplayListCleanUser(){
-        $clean_users = OcDao::SelectCleanUsersNoAdmin(); // retourne les utilisateur non bannis (sans les admins)
-        $display = '';
-
-        $display .= '<ul style="height:100%; width:300px; overflow:hidden; overflow-y:auto;">';
-        foreach ($clean_users as $clean_user) { // on affiche les utilisateur non bannis
-            $display .= '<li>' . $clean_user['username'] . ' / ' . $clean_user['email'];
-            $display .= '&nbsp<a href="admin.php?action=ban&id=' . $clean_user['id_user'] . '"><img style="width:15px; height:15px;" src="img/icon_ban.png" alt="Delete"></a>';
-            $display .= '</li>';
-        }
-        $display .= '</ul>';
-
-        echo $display;
-    }
-
-    function DisplayListBannedUser(){
-        $banned_users = OcDao::SelectBannedUsers(); // retourne les utilisateurs bannis (sans les admins)
-        $display = '';
-
-        $display .= '<ul style="height:100%; width:300px; overflow:hidden; overflow-y:auto;">';
-        foreach ($banned_users as $banned_user) { // on affiche les utilisateur bannis
-            $display .= '<li>' . $banned_user['username'] . ' / ' . $banned_user['email'];
-            $display .= '&nbsp<a href="admin.php?action=unban&id=' . $banned_user['id_user'] . '"><img style="width:15px; height:15px;" src="img/icon_ban.png" alt="Unban"></a>';
-            $display .= '&nbsp<a href="admin.php?action=delete&id=' . $banned_user['id_user'] . '"><img style="width:15px; height:15px;" src="img/icon_delete.png" alt="Delete"></a>';
-            $display .= '</li>';
-        }
-        $display .= '</ul>';
-
-        echo $display;
-    }
-?>

@@ -2,7 +2,8 @@
 <?php
 session_start();
 
-require_once('class.dao.php');
+require_once('class/class.oc_dao.php');
+require_once('class/class.oc_display.php');
 ?>
 <html lang="en">
     <head>
@@ -14,7 +15,7 @@ require_once('class.dao.php');
     <body>
         <header>
             <?php
-            include_once('inc.navbar.php'); 
+            OcDisplay::DisplayNavbar();
             ?>
         </header>
         <section id="index">
@@ -37,24 +38,10 @@ require_once('class.dao.php');
                 <div style="width: 25%; border: 1px solid black;">
                     <h2>Users list</h2>
                     <?php
-                    DisplayListUsers();
+                    OcDisplay::DisplayListUsers();
                     ?>
                 </div>
             </div>
         </section>
     </body>
 </html>
-<?php
-    function DisplayListUsers(){
-        $users = OcDao::SelectCleanUsers(); // recupere le utilisateur depuis la base de données
-
-        $display = '';
-        $display .= '<ul style="height:100%; width:170px; overflow:hidden; overflow-y:auto;">';
-        foreach ($users as $user) {
-            $display .= '<li>' .$user['username'] . ($user['is_admin'] == 1 ? ' / Admin' : ''). '</li>';
-        }
-        $display .= '</ul>';
-
-        echo $display;
-    }
-?>
