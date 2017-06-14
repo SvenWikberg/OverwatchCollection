@@ -253,7 +253,6 @@ class OcDao{
         $req = 'SELECT rewards.id_reward
                 FROM rewards 
                 JOIN users_rewards ON users_rewards.id_reward = rewards.id_reward
-                JOIN events ON events.id_event = rewards.id_event
                 WHERE rewards.id_event = :id_event
                 AND users_rewards.id_user = :id_user';
         $sql = MyPdo::GetMyPdo()->prepare($req);
