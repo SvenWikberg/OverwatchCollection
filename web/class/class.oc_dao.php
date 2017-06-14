@@ -42,8 +42,7 @@ class OcDao{
     static function SelectAbilitiesByIdHero($id){
         $req = 'SELECT abilities.id_ability, abilities.name, abilities.description, abilities.id_hero, abilities.is_ultimate 
                 FROM abilities 
-                JOIN heroes ON heroes.id_hero = abilities.id_hero
-                WHERE heroes.id_hero = :id
+                WHERE abilities.id_hero = :id
                 ORDER BY abilities.is_ultimate';
         $sql = MyPdo::GetMyPdo()->prepare($req);
         $sql->bindParam(':id', $id, PDO::PARAM_INT);
@@ -225,13 +224,12 @@ class OcDao{
         }
     }
 
-    // les id des objets d'un hero qu'un utilisateur a selectionné
+    // recupere les id des objets d'un hero qu'un utilisateur a selectionné
     static function SelectIdRewardsByIdHeroAndIdUser($id_hero, $id_user){
         $req = 'SELECT rewards.id_reward
                 FROM rewards 
                 JOIN users_rewards ON users_rewards.id_reward = rewards.id_reward
-                JOIN heroes ON heroes.id_hero = rewards.id_hero
-                WHERE heroes.id_hero = :id_hero
+                WHERE rewards.id_hero = :id_hero
                 AND users_rewards.id_user = :id_user';
         $sql = MyPdo::GetMyPdo()->prepare($req);
         $sql->bindParam(':id_hero', $id_hero, PDO::PARAM_INT);
@@ -250,7 +248,7 @@ class OcDao{
         return $tmpReturn;
     }
 
-    // les id des objets d'un evenement qu'un utilisateur a selectionné
+    // recupere les id des objets d'un evenement qu'un utilisateur a selectionné
     static function SelectIdRewardsByIdEventAndIdUser($id_event, $id_user){
         $req = 'SELECT rewards.id_reward
                 FROM rewards 
@@ -275,7 +273,7 @@ class OcDao{
         return $tmpReturn;
     }
 
-    // les id des objets d'aucun hero qu'un utilisateur a selectionné
+    // recupere les id des objets d'aucun hero qu'un utilisateur a selectionné
     static function SelectIdRewardsByNoIdHeroAndIdUser($id_user){
         $req = 'SELECT rewards.id_reward
                 FROM rewards 
