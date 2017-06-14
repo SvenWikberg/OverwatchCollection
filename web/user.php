@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-require_once('inc.dao.php');
+require_once('class.dao.php');
 require_once('inc.func.display.php');
 
 if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou process des données differentes
@@ -12,7 +12,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
             $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_ENCODED);
             $password = sha1(filter_input(INPUT_POST, 'password', FILTER_SANITIZE_ENCODED));
 
-            $user = SelectUserByUsername($username); // on récupere les données de l'utilisateur grace a son nom d'utilisateur
+            $user = OcDao::SelectUserByUsername($username); // on récupere les données de l'utilisateur grace a son nom d'utilisateur
 
             if($user == null) // si l'on ne récupère rien, ca veut dire que ce nom d'utilisateur n'existe pas, donc on informe l'utilisateurgrace a l'erreur en GET
                 $myGet = '?msg=wrongUn';
@@ -33,7 +33,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
             $password = sha1(filter_input(INPUT_POST, 'password', FILTER_SANITIZE_ENCODED));
             $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
 
-            $tmp = InsertUser($username, $password, $email);
+            $tmp = OcDao::InsertUser($username, $password, $email);
             if($tmp == null){
                 $myGet = '?msg=signOk';
             } else {
@@ -44,9 +44,9 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
         }
     } elseif ($_GET['action'] == 'deco') { // l'action deco met la valeur de l'id_connected a null, id_connected qui donne l'info de l'id de utilisateur connecté
         session_destroy();
-    } elseif ($_GET['action'] == 'update') { // 
+    } elseif ($_GET['action'] == 'update') { // l'action update met a jour les donnée de l'utilisateur avec les données qu'il a entrées
         if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null){ // si l'utilisateur est connecter
-            UpdateUserByIdNoPwd($_SESSION['id_connected'], $_POST['username'], $_POST['email']);
+            OcDao::UpdateUserByIdNoPwd($_SESSION['id_connected'], $_POST['username'], $_POST['email']);
         }
     }
     header('Location: user.php' . $myGet);
@@ -138,7 +138,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
     }
 
     function DisplayAccountInfo($id_user){ // affiche les informations du compte de l'utilisateur connecté
-            $user = SelectUserById($id_user);
+            $user = OcDao::SelectUserById($id_user);
 
             $display = '';
             $display .= '<section id="account_info">';
@@ -166,7 +166,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
     }
 
     function DisplayAccountInfoUpdating($id_user){ // affiche le formulaire qui permet de modifier les infos de l'utilisateur
-        $user = SelectUserById($id_user);
+        $user = OcDao::SelectUserById($id_user);
 
         $display = '';
         $display .= '<section id="account_info_updating">';
@@ -194,8 +194,8 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
     }
 
     function DisplayMainProgressBar($id_user){ // affiche la barre de progression principale
-        $all_count = SelectCountReward();  // retourne le nombre d'objet en tout
-        $user_count = SelectCountRewardByIdUser($id_user); // retourne le nombre d'objet d'un utilisateur
+        $all_count = OcDao::SelectCountReward();  // retourne le nombre d'objet en tout
+        $user_count = OcDao::SelectCountRewardByIdUser($id_user); // retourne le nombre d'objet d'un utilisateur
         $display = '';
 
         $display .= '<div>';
@@ -209,8 +209,8 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
     }
 
     function DisplayEventsProgressBar($id_user){ // affiche les barre de progression des evenements
-        $array_events_count = SelectCountRewardEvents(); // retourne le nombre d'objets de chaque evenement
-        $array_events_user_count = SelectCountRewardEventsByIdUser($id_user); // retourne le nombre d'objets de l'utilisateur pour chaque evenement
+        $array_events_count = OcDao::SelectCountRewardEvents(); // retourne le nombre d'objets de chaque evenement
+        $array_events_user_count = OcDao::SelectCountRewardEventsByIdUser($id_user); // retourne le nombre d'objets de l'utilisateur pour chaque evenement
         $display = '';
 
         $display .= '<div>';
@@ -231,8 +231,8 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
     }
 
      function DisplayHeroesProgressBar($id_user){ // affiche les barre de progression des evenements
-        $array_heroes_count = SelectCountRewardHeroes(); // retourne le nombre d'objets de chaque hero
-        $array_heroes_user_count = SelectCountRewardHeroesByIdUser($id_user); // retourne le nombre d'objets de l'utilisateur pour chaque hero
+        $array_heroes_count = OcDao::SelectCountRewardHeroes(); // retourne le nombre d'objets de chaque hero
+        $array_heroes_user_count = OcDao::SelectCountRewardHeroesByIdUser($id_user); // retourne le nombre d'objets de l'utilisateur pour chaque hero
         $display = '';
 
         $display .= '<div>';

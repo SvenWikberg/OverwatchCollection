@@ -3,10 +3,10 @@
 session_start();
 
 
-require_once('inc.dao.php');
+require_once('class.dao.php');
 
 if(isset($_SESSION['id_connected'])){ // si pas admin, on ne peut pas acceder a cette page
-    $user = SelectUserById($_SESSION['id_connected']);
+    $user = OcDao::SelectUserById($_SESSION['id_connected']);
     if($user['is_admin'] == 0){
         header('Location: index.php');
     }    
@@ -17,15 +17,15 @@ if(isset($_SESSION['id_connected'])){ // si pas admin, on ne peut pas acceder a 
 if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou process des données differentes
     if($_GET['action'] == 'ban'){ // on banni l'utilisateur selectionné
         if(isset($_GET['id'])){
-            BanUserById($_GET['id']);
+            OcDao::BanUserById($_GET['id']);
         }
     } elseif($_GET['action'] == 'unban'){ // on debanni l'utilisateur selectionné
         if(isset($_GET['id'])){
-            UnbanUserById($_GET['id']);
+            OcDao::UnbanUserById($_GET['id']);
         }
     } elseif($_GET['action'] == 'delete'){ // on supprime l'utilisateur selectionné'
         if(isset($_GET['id'])){
-            DeleteUserById($_GET['id']);
+            OcDao::DeleteUserById($_GET['id']);
         }
     }
     header('Location: admin.php');
@@ -69,7 +69,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
 </html>
 <?php
     function DisplayListCleanUser(){
-        $clean_users = SelectCleanUsersNoAdmin(); // retourne les utilisateur non bannis (sans les admins)
+        $clean_users = OcDao::SelectCleanUsersNoAdmin(); // retourne les utilisateur non bannis (sans les admins)
         $display = '';
 
         $display .= '<ul style="height:100%; width:300px; overflow:hidden; overflow-y:auto;">';
@@ -84,7 +84,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
     }
 
     function DisplayListBannedUser(){
-        $banned_users = SelectBannedUsers(); // retourne les utilisateurs bannis (sans les admins)
+        $banned_users = OcDao::SelectBannedUsers(); // retourne les utilisateurs bannis (sans les admins)
         $display = '';
 
         $display .= '<ul style="height:100%; width:300px; overflow:hidden; overflow-y:auto;">';

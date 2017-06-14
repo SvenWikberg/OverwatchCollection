@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-require_once('inc.dao.php');
+require_once('class.dao.php');
 ?>
 <html lang="en">
     <head>
@@ -26,7 +26,7 @@ require_once('inc.dao.php');
 </html>
 <?php
 function DisplayEvents($nb_col_max){ // $nb_col_max = nombre de colonnes maximum pour les tableaux de heros
-    $events = SelectEvents();
+    $events = OcDao::SelectEvents();
     $display = '';
     $nb_col_current = 0; // nombre de colonnes actuelle
 

@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-require_once('inc.dao.php');
+require_once('class.dao.php');
 
 include_once('inc.func.user_reward.php'); 
 
@@ -34,10 +34,10 @@ include_once('inc.func.user_reward.php');
 </html>
 <?php
     function DisplayEventRewards($id){
-        $rewards_array = SelectRewardsInArrayOfQualityAndTypeByIdEvent($id); // retourne un tableau de rewards
+        $rewards_array = OcDao::SelectRewardsInArrayOfQualityAndTypeByIdEvent($id); // retourne un tableau de rewards
         
         if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null) // si l'utilisateur est connecter on va chercher l'id des rewards qu'il a
-            $rewards_owned = SelectIdRewardsByIdEventAndIdUser($id, $_SESSION['id_connected']);
+            $rewards_owned = OcDao::SelectIdRewardsByIdEventAndIdUser($id, $_SESSION['id_connected']);
         else
             $rewards_owned = false;
 
@@ -88,7 +88,7 @@ include_once('inc.func.user_reward.php');
     }
 
     function DisplayEventInfo($id){
-        $event = SelectEventById($id); // retourne l'enregistrement de l'événement depuis la base
+        $event = OcDao::SelectEventById($id); // retourne l'enregistrement de l'événement depuis la base
 
         if($event){
             $display = '<h1>' .$event['name']. '</h1>';

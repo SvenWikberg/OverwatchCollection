@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-require_once('inc.dao.php');
+require_once('class.dao.php');
 ?>
 <html lang="en">
     <head>
@@ -25,7 +25,7 @@ require_once('inc.dao.php');
 <?php
 
 function DisplayHeroesByRole($nb_col_max){// $nb_col_max = nombre de colonnes maximum pour les tableaux de heros
-    $heroes_array = SelectHeroesInArrayOfRole(); // retourne un tableau, trié par role, de tableau de héros
+    $heroes_array = OcDao::SelectHeroesInArrayOfRole(); // retourne un tableau, trié par role, de tableau de héros
     $display = '';
     $nb_col_current = 0; // nombre de colonnes actuelle
 

@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-require_once('inc.dao.php');
+require_once('class.dao.php');
 
 include_once('inc.func.user_reward.php'); 
 ?>
@@ -36,10 +36,10 @@ include_once('inc.func.user_reward.php');
 </html>
 <?php
     function DisplayHeroRewards($id){
-        $rewards_array = SelectRewardsInArrayOfQualityAndTypeByIdHero($id); // retourne un tableau de rewards
+        $rewards_array = OcDao::SelectRewardsInArrayOfQualityAndTypeByIdHero($id); // retourne un tableau de rewards
 
         if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null) // si l'utilisateur est connecter on va chercher l'id des rewards qu'il a
-            $rewards_owned = SelectIdRewardsByIdHeroAndIdUser($id, $_SESSION['id_connected']);
+            $rewards_owned = OcDao::SelectIdRewardsByIdHeroAndIdUser($id, $_SESSION['id_connected']);
         else
             $rewards_owned = false;
 
@@ -89,7 +89,7 @@ include_once('inc.func.user_reward.php');
     }
 
     function DisplayHeroAbilities($id){
-        $abilities = SelectAbilitiesByIdHero($id); // retourne les capacité du heros
+        $abilities = OcDao::SelectAbilitiesByIdHero($id); // retourne les capacité du heros
         $nb_col_max = 2; // nombre de colonnes maximum pour les tableaux de heros
         $nb_col_current = 0; // nombre de colonnes actuelle
 
@@ -120,7 +120,7 @@ include_once('inc.func.user_reward.php');
     }
 
     function DisplayHeroInfo($id){
-        $hero = SelectHeroById($id); // retourne l'enregistrement du heros depuis la base
+        $hero = OcDao::SelectHeroById($id); // retourne l'enregistrement du heros depuis la base
 
         if($hero){
             $display = '<h1>' .$hero['name']. '</h1>';

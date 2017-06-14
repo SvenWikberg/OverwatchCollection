@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-require_once('inc.dao.php');
+require_once('class.dao.php');
 ?>
 <html lang="en">
     <head>
@@ -46,7 +46,7 @@ require_once('inc.dao.php');
 </html>
 <?php
     function DisplayListUsers(){
-        $users = SelectCleanUsers(); // recupere le utilisateur depuis la base de données
+        $users = OcDao::SelectCleanUsers(); // recupere le utilisateur depuis la base de données
 
         $display = '';
         $display .= '<ul style="height:100%; width:170px; overflow:hidden; overflow-y:auto;">';

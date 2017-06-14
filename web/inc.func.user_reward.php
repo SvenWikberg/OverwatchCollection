@@ -5,10 +5,10 @@ if (isset($_GET['action'])) {
             $id_user = $_SESSION['id_connected'];
             $id_reward = $_GET['id_reward'];
 
-           if(IsCreatedUserReward($id_user, $id_reward)){ // test si l'enregistrement est deja créé
-               DeleteUserReward($id_user, $id_reward); // si c'est le cas on l'enelève
+           if(OcDao::IsCreatedUserReward($id_user, $id_reward)){ // test si l'enregistrement est deja créé
+               OcDao::DeleteUserReward($id_user, $id_reward); // si c'est le cas on l'enelève
            } else {
-               InsertUserReward($id_user, $id_reward); // si ce n'est pas le cas on l'ajoute
+               OcDao::InsertUserReward($id_user, $id_reward); // si ce n'est pas le cas on l'ajoute
            }
         }
     }

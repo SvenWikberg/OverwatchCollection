@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-require_once('inc.dao.php');
+require_once('class.dao.php');
 
 include_once('inc.func.user_reward.php'); 
 ?>
@@ -33,10 +33,10 @@ include_once('inc.func.user_reward.php');
 </html>
 <?php
     function DisplayOtherRewards(){
-        $rewards_array = SelectRewardsInArrayOfQualityAndTypeByNoIdHero(); // retourne un tableau de rewards
+        $rewards_array = OcDao::SelectRewardsInArrayOfQualityAndTypeByNoIdHero(); // retourne un tableau de rewards
 
         if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null) // si l'utilisateur est connecter on va chercher l'id des rewards qu'il a
-            $rewards_owned = SelectIdRewardsByNoIdHeroAndIdUser($_SESSION['id_connected']);
+            $rewards_owned = OcDao::SelectIdRewardsByNoIdHeroAndIdUser($_SESSION['id_connected']);
         else
             $rewards_owned = false;
 
