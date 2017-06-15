@@ -154,8 +154,6 @@ class OcDisplay{
     static function DisplayHeroRewards($id_hero){
         $rewards_array = OcDao::SelectRewardsInArrayOfQualityAndTypeByIdHero($id_hero); // retourne un tableau de rewards
 
-        print_rr($rewards_array);
-
         if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null) // si l'utilisateur est connecter on va chercher l'id des rewards qu'il a
             $rewards_owned = OcDao::SelectIdRewardsByIdHeroAndIdUser($id_hero, $_SESSION['id_connected']);
         else

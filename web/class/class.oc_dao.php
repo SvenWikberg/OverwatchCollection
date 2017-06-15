@@ -181,6 +181,7 @@ class OcDao{
     static function SelectHeroesInArrayOfRole() { 
         $req = 'SELECT id_hero, name, id_role FROM heroes WHERE id_role = :id';
         $sql = MyPdo::GetMyPdo()->prepare($req);
+        $tmpReturn = Array();
 
         foreach (OcDao::SelectRoles() as $role) {
             $sql->bindParam(':id', $role['id_role'], PDO::PARAM_INT);
@@ -211,7 +212,10 @@ class OcDao{
 
     // test si un enregistrement de la table de liaison "users_rewards" existe, oui -> true / non -> false
     static function IsCreatedUserReward($id_user, $id_reward){
-        $req = 'SELECT users_rewards.id_user, users_rewards.id_reward FROM users_rewards WHERE id_user = :id_user AND id_reward = :id_reward';
+        $req = 'SELECT users_rewards.id_user, users_rewards.id_reward 
+                FROM users_rewards 
+                WHERE id_user = :id_user 
+                AND id_reward = :id_reward';
         $sql = MyPdo::GetMyPdo()->prepare($req);
         $sql->bindParam(':id_user', $id_user, PDO::PARAM_INT);
         $sql->bindParam(':id_reward', $id_reward, PDO::PARAM_INT);
@@ -305,8 +309,12 @@ class OcDao{
                 ORDER BY rewards.name';
         $sql = MyPdo::GetMyPdo()->prepare($req);
 
-        foreach (OcDao::SelectRewardTypes() as $rewardType) {
-            foreach (OcDao::SelectQualities() as $quality) {
+        $rewardTypes = OcDao::SelectRewardTypes();
+        $qualities = OcDao::SelectQualities();
+        $tmpReturn = Array();
+
+        foreach ($rewardTypes as $rewardType) {
+            foreach ($qualities as $quality) {
                 $sql->bindParam(':id_reward_type', $rewardType['id_reward_type'], PDO::PARAM_INT);
                 $sql->bindParam(':id_quality', $quality['id_quality'], PDO::PARAM_INT);
                 $sql->bindParam(':id_hero', $id, PDO::PARAM_INT);
@@ -335,8 +343,11 @@ class OcDao{
                 ORDER BY rewards.name';
         $sql = MyPdo::GetMyPdo()->prepare($req);
 
-        foreach (OcDao::SelectRewardTypes() as $rewardType) {
-            foreach (OcDao::SelectQualities() as $quality) {
+        $rewardTypes = OcDao::SelectRewardTypes();
+        $qualities = OcDao::SelectQualities();
+
+        foreach ($rewardTypes as $rewardType) {
+            foreach ($qualities as $quality) {
                 $sql->bindParam(':id_reward_type', $rewardType['id_reward_type'], PDO::PARAM_INT);
                 $sql->bindParam(':id_quality', $quality['id_quality'], PDO::PARAM_INT);
                 $sql->execute();
@@ -363,8 +374,11 @@ class OcDao{
                 ORDER BY rewards.name';
         $sql = MyPdo::GetMyPdo()->prepare($req);
 
-        foreach (OcDao::SelectRewardTypes() as $rewardType) {
-            foreach (OcDao::SelectQualities() as $quality) {
+        $rewardTypes = OcDao::SelectRewardTypes();
+        $qualities = OcDao::SelectQualities();
+
+        foreach ($rewardTypes as $rewardType) {
+            foreach ($qualities as $quality) {
                 $sql->bindParam(':id_reward_type', $rewardType['id_reward_type'], PDO::PARAM_INT);
                 $sql->bindParam(':id_quality', $quality['id_quality'], PDO::PARAM_INT);
                 $sql->bindParam(':id_event', $id, PDO::PARAM_INT);
