@@ -4,7 +4,6 @@ session_start();
 
 require_once('class/class.oc_dao.php');
 require_once('class/class.oc_display.php');
-//require_once('inc.func.display.php');
 
 if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou process des données differentes
     $myget = '';
