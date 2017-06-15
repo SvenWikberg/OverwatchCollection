@@ -518,7 +518,7 @@ class OcDisplay{
         echo $display;
     }
 
-    // retourne une chaine pour afficher une barre de progression grace aux parametre de la focntion
+    // retourne une chaine pour afficher une barre de progression grace aux parametre de la fonction
         // max_value est la valeur maximum de la progress bar
         // current_value est la valur actuelle de la barre
         // width_percent est la largeur de la barre en pourcentage
