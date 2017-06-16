@@ -20,7 +20,7 @@ require_once('class/class.oc_display.php');
         </header>
         <section id="heroes">
             <?php
-            OcDisplay::DisplayHeroesByRole(4);
+            OcDisplay::DisplayHeroesByRole(3);
             ?>
         </section>
     </body>

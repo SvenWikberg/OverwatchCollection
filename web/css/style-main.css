@@ -1,21 +1,78 @@
+@font-face {
+    font-family: "BigNoodle";
+    src: url('../font/BigNoodleToo.ttf');
+}
+@font-face {
+    font-family: "BigNoodle";
+    font-style: italic;
+    src: url('../font/BigNoodleTooOblique.ttf');
+}
+@font-face {
+    font-family: "Futura";
+    src: url('../font/Futura.ttf');
+}
+
 body{
+    font-family: "BigNoodle", Helvetica, Arial, sans-serif;
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
 }
 
+h1{
+    color: #FF9C1E;
+    font-size: 40px;
+    font-style: italic;
+}
+
+h2{
+    font-size: 30px;
+    font-style: italic;
+}
+
+h3{
+    font-size: 25px;
+    font-style: italic;
+}
+
+h4{
+    font-size: 25px;
+}
+
 p{
+    font-family: "Futura", Helvetica, Arial, sans-serif;
     text-align: justify;
+    font-style: normal;
+    font-weight: normal;
 }
 
 header ul{
-    padding: 0;
-    margin: 0;
+    padding: 30px 20px;
+    margin: 0px;
     list-style-type: none;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
+    background-color: #cccccc;
+    border-radius: 15px;
+}
+
+header ul li{
+    font-size: 30px;
+}
+
+header ul li a{
+    text-decoration: none;
+    color: #606060;
+    padding: 5px;
+}
+
+header ul li a:hover{
+    color: #FF9C1E;
+    cursor: pointer;
+    background-color: #a0a0a0;
+    border-radius: 5px;
 }
 
 .flex_row{
@@ -25,11 +82,19 @@ header ul{
     flex-wrap: wrap;
 }
 
+section#index li{
+    font-size: 22px;
+}
+
 section#heroes{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
+}
+
+section#heroes table a div{
+    font-size: 22px;
 }
 
 section#hero_info div{
@@ -72,6 +137,15 @@ section#rewards div div div{
     flex-direction: column;
 }
 
+section#rewards div div div li{
+    font-size: 22px;
+}
+
+section#events table a div{
+    font-size: 25px;
+    font-style: italic;
+}
+
 section#event_info div{
     display: flex;
     flex-direction: row;
@@ -85,4 +159,13 @@ section#account_info div#title{
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
+}
+
+section#admin table ul{
+    margin: 10px;
+}
+
+section#admin table ul li{
+    font-family: "Futura", Helvetica, Arial, sans-serif;
+    font-size: 18px;
 }

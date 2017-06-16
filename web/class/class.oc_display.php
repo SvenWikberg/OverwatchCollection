@@ -268,7 +268,7 @@ class OcDisplay{
 
                 if($nb_col_current == 1) // si le nombre de colonne actuelle vaut 1, c'est qu'on est au debut d'une nouvelle ligne donc on ouvre une balise <tr>
                     $display .= '<tr>';
-                $display .= '<td><a href="hero.php?id=' .$hero['id_hero']. '"><img src="img/icon_hero.png" alt="' .$hero['name']. '"><div>' .$hero['name']. '</div></a></td>';
+                $display .= '<td><a href="hero.php?id=' .$hero['id_hero']. '"><img src="img/icon_hero/' .preg_replace('/[^A-Za-z0-9\-]/', '', $hero['name']). '.png" alt="' .$hero['name']. '"><div>' .$hero['name']. '</div></a></td>';
                 if($nb_col_current == $nb_col_max){ // si le nombre de colonne actuelle vaut le nombre de colonne max, c'est qu'on est a la fin de la ligne donc on ferme une balise <tr>
                     $display .= '</tr>';
                     $nb_col_current = 0;
@@ -349,7 +349,7 @@ class OcDisplay{
         $display = '<section id="login"><form action="user.php?action=login" method="post">
                         <fieldset>
                         <legend><h2>Login</h2></legend>
-                        Username :<br>
+                        <p>Username :</p>
                         <input maxlength="25" required type="text" name="username" value="">';
                         
         if(isset($_GET['msg']))
@@ -359,7 +359,7 @@ class OcDisplay{
                 $display .= 'Your account has been banned';
                         
         $display .=    '<br>
-                        Password:<br>
+                        <p>Password:</p>
                         <input required type="password" name="password" value="">';
 
         if(isset($_GET['msg']))
@@ -379,16 +379,16 @@ class OcDisplay{
                         <form action="user.php?action=signin" method="post">
                             <fieldset>
                                 <legend><h2>Sign in</h2></legend>
-                                Username* :<br>
+                                <p>Username* :</p>
                                 <input maxlength="25" required type="text" name="username" value="">';
 
         if(isset($_GET['msg']))
             if($_GET['msg'] == 'duplicate') // nom d'utilisateur ou email deja utilisé
                 $display .= 'Username or email already used';
 
-        $display .=             '<br>Email* :<br>
+        $display .=             '<p>Email* :</p>
                                 <input maxlength="100" required type="email" name="email" value=""><br>
-                                Password* :<br>
+                                <p>Password* :</p>
                                 <input minlength="8" required type="password" name="password" value=""><br><br>
                                 <input type="submit" value="Submit">
                             </fieldset>
@@ -420,7 +420,7 @@ class OcDisplay{
 
             if($user['is_admin']){
                 $display .= '<div>';
-                $display .= '<a href="admin.php">Admin page</a>';
+                $display .= '<a href="admin.php"><p>Admin page</p></a>';
                 $display .= '</div>';
             }
 
@@ -468,8 +468,8 @@ class OcDisplay{
 
         $display .= '<div>';
         $display .= '<div class="flex_row">';
-        $display .= '<h3>All rewards</h3>';
-        $display .= '<h3>' . $user_count . '/' . $all_count . '</h3>';
+        $display .= '<h2>All rewards</h2>';
+        $display .= '<h2>' . $user_count . '/' . $all_count . '</h2>';
         $display .= '</div>';
         $display .= OcDisplay::GetProgressBar($all_count, $user_count, 100, 30);
         $display .= '</div>';
@@ -483,7 +483,7 @@ class OcDisplay{
         $display = '';
 
         $display .= '<div>';
-        $display .= '<h3>Events</h3>';
+        $display .= '<h2>Events</h2>';
         $display .= '<div class="flex_row">';
         for ($i=0; $i < count($array_events_count); $i++) { 
             $display .= '<div style="width:48%;">';
@@ -506,7 +506,7 @@ class OcDisplay{
         $display = '';
 
         $display .= '<div>';
-        $display .= '<h3>Events</h3>';
+        $display .= '<h2>Heroes</h2>';
         $display .= '<div class="flex_row">';
         for ($i=0; $i < count($array_heroes_count); $i++) { 
             $display .= '<div style="width:32%;">';

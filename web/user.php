@@ -43,7 +43,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
             }
         }
     } elseif ($_GET['action'] == 'deco') { // l'action deco met la valeur de l'id_connected a null, id_connected qui donne l'info de l'id de utilisateur connecté
-        session_destroy();
+        session_destroy(); 
     } elseif ($_GET['action'] == 'update') { // l'action update met a jour les donnée de l'utilisateur avec les données qu'il a entrées
         if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null){ // si l'utilisateur est connecter
             if (isset($_POST['username']) && isset($_POST['email'])) {

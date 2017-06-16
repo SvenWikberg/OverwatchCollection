@@ -18,7 +18,7 @@ require_once('class/class.oc_display.php');
             OcDisplay::DisplayNavbar();
             ?>
         </header>
-        <section>
+        <section id="events">
             <?php
             OcDisplay::DisplayEvents(2);
             ?>
