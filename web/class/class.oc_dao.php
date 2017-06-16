@@ -171,10 +171,16 @@ class OcDao{
 
     // modifie l'enregistrement d'un utilisateur en les replacant par les parametres de la fonction
     static function UpdateUserByIdNoPwd($id, $username, $email){
-        $req = "UPDATE users SET username='$username', email='$email' WHERE id_user=:id";
-        $sql = MyPdo::GetMyPdo()->prepare($req);
-        $sql->bindParam(':id', $id, PDO::PARAM_INT);
-        $sql->execute();
+        try{
+            $req = "UPDATE users SET username='$username', email='$email' WHERE id_user=:id";
+            $sql = MyPdo::GetMyPdo()->prepare($req);
+            $sql->bindParam(':id', $id, PDO::PARAM_INT);
+            $sql->execute();
+        } catch (PDOException $e) {
+            print_rr($e);
+            return $e->errorInfo[1];
+        }
+        return null;
     }
 
     // recupere tous les heros et les range par role dans un tableau

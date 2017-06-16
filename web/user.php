@@ -46,7 +46,19 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
         session_destroy();
     } elseif ($_GET['action'] == 'update') { // l'action update met a jour les donnée de l'utilisateur avec les données qu'il a entrées
         if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null){ // si l'utilisateur est connecter
-            OcDao::UpdateUserByIdNoPwd($_SESSION['id_connected'], $_POST['username'], $_POST['email']);
+            if (isset($_POST['username']) && isset($_POST['email'])) {
+                $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_ENCODED);
+                $email = filter_input(INPUT_POST, 'email');
+
+                $tmp = OcDao::UpdateUserByIdNoPwd($_SESSION['id_connected'], $username, $email);
+                if($tmp == null){
+                    $myGet = '?msg=updateOK';
+                } else {
+                    if($tmp == 1062){
+                        $myGet = '?msg=updateDuplicate';
+                    }
+                }
+            }
         }
     }
     header('Location: user.php' . $myGet);

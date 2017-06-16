@@ -408,6 +408,10 @@ class OcDisplay{
             $display .= '<a href="user.php?goto=updating"><img style="width:20px; height:20px;" src="img/icon_edit.png" alt="Edit"></a>';
             $display .= '</div>';
 
+            if(isset($_GET['msg']))
+                if($_GET['msg'] = 'updateDuplicate')
+                    $display .= '<h3>Username/Email already used</h3>';
+
             $display .= '<div class="flex_row">';
             $display .= '<div style="width:70%;">';
             $display .= '<p>Username: ' . $user['username'] . '</p>';
