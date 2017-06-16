@@ -387,7 +387,7 @@ class OcDisplay{
                 $display .= 'Username or email already used';
 
         $display .=             '<br>Email* :<br>
-                                <input maxlength="100" required type="mail" name="email" value=""><br>
+                                <input maxlength="100" required type="email" name="email" value=""><br>
                                 Password* :<br>
                                 <input minlength="8" required type="password" name="password" value=""><br><br>
                                 <input type="submit" value="Submit">
@@ -409,7 +409,7 @@ class OcDisplay{
             $display .= '</div>';
 
             if(isset($_GET['msg']))
-                if($_GET['msg'] = 'updateDuplicate')
+                if($_GET['msg'] == 'updateDuplicate')
                     $display .= '<h3>Username/Email already used</h3>';
 
             $display .= '<div class="flex_row">';
