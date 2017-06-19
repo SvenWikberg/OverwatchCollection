@@ -1,3 +1,8 @@
+/*
+    Auteur: Sven Wikberg
+    Date: 19/06/2017
+    Description: Page de style du site
+*/  
 @font-face {
     font-family: "BigNoodle";
     src: url('../font/BigNoodleToo.ttf');
@@ -44,6 +49,14 @@ p{
     text-align: justify;
     font-style: normal;
     font-weight: normal;
+}
+
+footer{
+    padding: 5px;
+    margin: 0px;
+    margin-top: 30px; 
+    background-color: #cccccc;
+    border-radius: 15px;
 }
 
 header ul{
@@ -97,6 +110,18 @@ section#heroes table a div{
     font-size: 22px;
 }
 
+section#heroes table a img{
+    border-radius: 5px;
+}
+
+section#heroes table td{
+    border-radius: 5px;
+}
+
+section#heroes table td:hover{
+    background-color: #FF9C1E;
+}
+
 section#hero_info div{
     display: flex;
     flex-direction: row;
@@ -122,7 +147,9 @@ section#rewards div{
 }
 
 section#rewards div.rewards_type{
-    border: 1px solid black;
+    border: 3px solid black;
+    border-radius: 10px; 
+    margin-top: 10px;
 }
 
 section#rewards div div{
@@ -137,13 +164,51 @@ section#rewards div div div{
     flex-direction: column;
 }
 
+section#rewards div div div h3.Common{
+    color: black;
+}
+
+section#rewards div div div h3.Rare{
+    color: #01C2FD;
+}
+
+section#rewards div div div h3.Epic{
+    color: #FE01FE;
+}
+
+section#rewards div div div h3.Legendary{
+    color: #FF9C1E;
+}
+
 section#rewards div div div li{
     font-size: 22px;
+    border-radius: 3px;
+}
+
+section#rewards div div div li:hover{
+    background-color: #C0C0C0;
+}
+
+section#events{
+    margin-top: 30px;
 }
 
 section#events table a div{
     font-size: 25px;
     font-style: italic;
+}
+
+section#events table tr td{
+    padding: 10px;
+    border-radius: 10px;
+}
+
+section#events table tr td:hover{
+    background-color: #FF9C1E;
+}
+
+section#events table tr td img{
+    border-radius: 10px;
 }
 
 section#event_info div{
@@ -159,6 +224,10 @@ section#account_info div#title{
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
+}
+
+section#account_stats div.bar_ext{
+    border-radius: 5px;
 }
 
 section#admin table ul{

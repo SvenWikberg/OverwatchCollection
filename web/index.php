@@ -1,3 +1,8 @@
+<!--
+    Auteur: Sven Wikberg
+    Date: 19/06/2017
+    Description: Page d'accueil
+-->    
 <!doctype html>
 <?php
 session_start();
@@ -43,5 +48,9 @@ require_once('class/class.oc_display.php');
                 </div>
             </div>
         </section>
+        <footer>
+            <p>This site is not affiliated with Blizzard Entertainement. ®2016 Blizzard Entertainment, Inc. All rights reserved <br>
+            Author : Sven Wikberg </p>
+        </footer>
     </body>
 </html>

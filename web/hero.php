@@ -1,3 +1,8 @@
+<!--
+    Auteur: Sven Wikberg
+    Date: 19/06/2017
+    Description: Page d'un heros
+-->    
 <!doctype html>
 <?php
 session_start();
@@ -34,5 +39,9 @@ require_once('function/func.user_reward.php');
             OcDisplay::DisplayHeroRewards($_GET['id']);
             ?>
         </section>
+        <footer>
+            <p>This site is not affiliated with Blizzard Entertainement. ®2016 Blizzard Entertainment, Inc. All rights reserved <br>
+            Author : Sven Wikberg </p>
+        </footer>
     </body>
 </html>

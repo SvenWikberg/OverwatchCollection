@@ -1,3 +1,8 @@
+<!--
+    Auteur: Sven Wikberg
+    Date: 19/06/2017
+    Description: Fonction d'ajout ou de suppression d'un objet pour un utilisateur
+-->    
 <?php
 if (isset($_GET['action'])) {
     if($_GET['action'] == 'add_user_reward' && isset($_GET['id_reward'])){

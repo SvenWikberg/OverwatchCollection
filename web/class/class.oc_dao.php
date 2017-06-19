@@ -1,3 +1,8 @@
+<!--
+    Auteur: Sven Wikberg
+    Date: 19/06/2017
+    Description: Classe de recuperation de donnees
+-->    
 <?php
 /////////////////////
 function print_rr($value){

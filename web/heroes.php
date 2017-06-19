@@ -1,3 +1,8 @@
+<!--
+    Auteur: Sven Wikberg
+    Date: 19/06/2017
+    Description: Page des heros
+-->    
 <!doctype html>
 <?php
 session_start();
@@ -20,8 +25,12 @@ require_once('class/class.oc_display.php');
         </header>
         <section id="heroes">
             <?php
-            OcDisplay::DisplayHeroesByRole(3);
+            OcDisplay::DisplayHeroesByRole(4);
             ?>
         </section>
+        <footer>
+            <p>This site is not affiliated with Blizzard Entertainement. ®2016 Blizzard Entertainment, Inc. All rights reserved <br>
+            Author : Sven Wikberg </p>
+        </footer>
     </body>
 </html>

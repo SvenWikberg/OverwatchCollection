@@ -66,5 +66,9 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
                 </tr>
             </table>
         </section>
+        <footer>
+            <p>This site is not affiliated with Blizzard Entertainement. ®2016 Blizzard Entertainment, Inc. All rights reserved <br>
+            Author : Sven Wikberg </p>
+        </footer>
     </body>
 </html>

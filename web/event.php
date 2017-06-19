@@ -30,5 +30,9 @@ require_once('function/func.user_reward.php');
             OcDisplay::DisplayEventRewards($_GET['id']);
             ?>
         </section>
+        <footer>
+            <p>This site is not affiliated with Blizzard Entertainement. ®2016 Blizzard Entertainment, Inc. All rights reserved <br>
+            Author : Sven Wikberg </p>
+        </footer>
     </body>
 </html>

@@ -1,3 +1,8 @@
+<!--
+    Auteur: Sven Wikberg
+    Date: 19/06/2017
+    Description: D'affichage des donnees
+-->    
 <?php
 class OcDisplay{
 
@@ -11,7 +16,7 @@ class OcDisplay{
         $display .= '<li><a href="events.php">Events</a></li>';
         $display .= '<li><a href="rewards.php">Others Rewards</a></li>';
         if(isset($_SESSION['id_connected']) && $_SESSION['id_connected'] != null){
-            if($_SERVER['PHP_SELF'] == '/OverwatchCollection/user.php'){
+            if(fnmatch('*user.php' , $_SERVER['PHP_SELF'])){
                 $display .= '<li><a href="user.php?action=deco">Log Out</a></li>';
             } else {
                 $display .=  '<li><a href="user.php">My Account</a></li>';
@@ -72,12 +77,12 @@ class OcDisplay{
 
             foreach ($rewards_array as $key => $type) {
                 $quality_count = count($type); // on compte le nombre de boite il y par catégorie afin de definir la taille de cell-ci
-                $display .= '<div class="rewards_type" style="width:' . ($quality_count == 4 ? '100' : $quality_count * 25 - 0.5) . '%">';
+                $display .= '<div class="rewards_type" style="width:' . ($quality_count == 4 ? '100' : $quality_count * 24 - 0.5) . '%">';
                 $display .= '<h2>' .$key. '</h2>';
                 $display .= '<div>';
                 foreach ($type as $key => $quality) {
                     $display .= '<div>';
-                    $display .= '<h3>' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
+                    $display .= '<h3 class="' .$key. '">' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
                     foreach ($quality as $key => $reward) {
 
                         // si l'id reward correspond a un element du tableau alors l'utilisateur a la reward, donc on l'affiche vert
@@ -133,13 +138,13 @@ class OcDisplay{
         $display = '';
         $nb_col_current = 0; // nombre de colonnes actuelle
 
-        $display .= '<table border="1">';
+        $display .= '<table>';
         foreach ($events as $event) {
             $nb_col_current++;
 
             if($nb_col_current == 1) // si le nombre de colonne actuelle vaut 1, c'est qu'on est au debut d'une nouvelle ligne donc on ouvre une balise <tr>
                 $display .= '<tr>';
-            $display .= '<td><a href="event.php?id=' .$event['id_event']. '"><div>' .$event['name']. '</div><img style="width: 100%;" src="img/icon_event.jpg" alt="' .$event['name']. '"><div>From: ' .$event['start_date']. ' To: ' .$event['start_date']. '</div></a></td>';
+            $display .= '<td><a href="event.php?id=' .$event['id_event']. '"><div>' .$event['name']. '</div><img style="width: 100%;" src="img/icon_event/' .$event['id_event']. '.jpg" alt="' .$event['name']. '"><div>From: ' .$event['start_date']. ' To: ' .$event['start_date']. '</div></a></td>';
             if($nb_col_current == $nb_col_max){ // si le nombre de colonne actuelle vaut le nombre de colonne max, c'est qu'on est a la fin de la ligne donc on ferme une balise <tr>
                 $display .= '</tr>';
                 $nb_col_current = 0;
@@ -164,12 +169,12 @@ class OcDisplay{
 
             foreach ($rewards_array as $key => $type) {
                 $quality_count = count($type); // on compte le nombre de boite il y par catégorie afin de definir la taille de cell-ci
-                $display .= '<div class="rewards_type" style="width:' . ($quality_count == 4 ? '100' : $quality_count * 25 - 0.5) . '%">';
+                $display .= '<div class="rewards_type" style="width:' . ($quality_count == 4 ? '100' : $quality_count * 24 - 0.5) . '%">';
                 $display .= '<h2>' .$key. '</h2>';
                 $display .= '<div>';
                 foreach ($type as $key => $quality) {
                     $display .= '<div>';
-                    $display .= '<h3>' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
+                    $display .= '<h3 class="' .$key. '">' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
                     foreach ($quality as $key => $reward) {
 
                         // si l'id reward correspond a un element du tableau alors l'utilisateur a la reward, donc on l'affiche vert
@@ -308,12 +313,12 @@ class OcDisplay{
 
         foreach ($rewards_array as $key => $type) {
             $quality_count = count($type); // on compte le nombre de boite il y par catégorie afin de definir la taille de celle-ci
-            $display .= '<div class="rewards_type" style="width:' . ($quality_count == 4 ? '100' : $quality_count * 25 - 0.5) . '%">';
+            $display .= '<div class="rewards_type" style="width:' . ($quality_count == 4 ? '100' : $quality_count * 24 - 0.5) . '%">';
             $display .= '<h2>' .$key. '</h2>';
             $display .= '<div>';
             foreach ($type as $key => $quality) {
                 $display .= '<div>';
-                $display .= '<h3>' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
+                $display .= '<h3 class="' .$key. '">' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
                 foreach ($quality as $key => $reward) {
 
                     // si l'id reward correspond a un element du tableau alors l'utilisateur a la reward, donc on l'affiche vert
@@ -437,13 +442,13 @@ class OcDisplay{
         $display = '';
         $display .= '<section id="account_info_updating">';
         $display .= '<div id="title">';
-        $display .= '<h1>My Account</h1>';
+        $display .= '<h1>Updating account info</h1>';
         $display .= '</div>';
 
         $display .= '<form action="user.php?action=update" method="post">';
-        $display .= 'Username: ';
+        $display .= '<p>Username :</p>';
         $display .= '<input maxlength="25" required type="text" name="username" value="' . $user['username'] . '"><br>';
-        $display .= 'Email: ';
+        $display .= '<p>Email: </p>';
         $display .= '<input maxlength="100" required type="email" name="email" value="' . $user['email'] . '"><br><br>';
         $display .= '<input type="submit" value="Submit">';
         $display .= '</form>';
@@ -529,7 +534,7 @@ class OcDisplay{
         // height_px est la hauteur de la barre en pixel
     static function GetProgressBar($max_value, $current_value, $width_percent, $height_px){
         $display = '';
-        $display .= '<div style="width: ' . $width_percent . '%; height: ' . $height_px . 'px; border: 1px solid black;">';
+        $display .= '<div class="bar_ext" style="width: ' . $width_percent . '%; height: ' . $height_px . 'px; border: 1px solid black;">';
         $display .=      '<div style="width: ' . ($current_value / $max_value) * 100 . '%; background-color: black; height: ' . $height_px . 'px;">';
         $display .=      '</div>';
         $display .= '</div>';
