@@ -2,9 +2,8 @@
 /*
     Auteur: Sven Wikberg
     Date: 19/06/2017
-    Description: D'affichage des donnees
+    Description: classe de connexion a la base de données
 */
-
 require_once('config/config_db.php');
 
 class MyPdo{

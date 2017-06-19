@@ -1,7 +1,7 @@
 <!--
     Auteur: Sven Wikberg
     Date: 19/06/2017
-    Description: Page des evenements
+    Description: Page d'un evenement
 -->    
 <!doctype html>
 <?php

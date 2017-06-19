@@ -2,7 +2,7 @@
 /*
     Auteur: Sven Wikberg
     Date: 19/06/2017
-    Description: D'affichage des donnees
+    Description: classe d'affichage des donnees
 */
 class OcDisplay{
 

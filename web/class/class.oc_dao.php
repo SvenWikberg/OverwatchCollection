@@ -2,7 +2,7 @@
 /*
     Auteur: Sven Wikberg
     Date: 19/06/2017
-    Description: D'affichage des donnees
+    Description: Classe de récupération des données
 */
 
 require_once('class/class.my_pdo.php');
