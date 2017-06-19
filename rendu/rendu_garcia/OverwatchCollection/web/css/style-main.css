@@ -1,0 +1,259 @@
+/*
+    Auteur: Sven Wikberg
+    Date: 19/06/2017
+    Description: Page de style du site
+*/  
+@font-face {
+    font-family: "BigNoodle";
+    src: url('../font/BigNoodleToo.ttf');
+}
+@font-face {
+    font-family: "BigNoodle";
+    font-style: italic;
+    src: url('../font/BigNoodleTooOblique.ttf');
+}
+@font-face {
+    font-family: "Futura";
+    src: url('../font/Futura.ttf');
+}
+
+body{
+    font-family: "BigNoodle", Helvetica, Arial, sans-serif;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1{
+    color: #FF9C1E;
+    font-size: 40px;
+    font-style: italic;
+}
+
+h2{
+    font-size: 30px;
+    font-style: italic;
+}
+
+h3{
+    font-size: 25px;
+    font-style: italic;
+}
+
+h4{
+    font-size: 25px;
+}
+
+p{
+    font-family: "Futura", Helvetica, Arial, sans-serif;
+    text-align: justify;
+    font-style: normal;
+    font-weight: normal;
+}
+
+footer{
+    padding: 5px;
+    margin: 0px;
+    margin-top: 30px; 
+    background-color: #cccccc;
+    border-radius: 15px;
+}
+footer p{
+    margin: 0px;
+}
+
+header ul{
+    padding: 30px 20px;
+    margin: 0px;
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: #cccccc;
+    border-radius: 15px;
+}
+
+header ul li{
+    font-size: 30px;
+}
+
+header ul li a{
+    text-decoration: none;
+    color: #606060;
+    padding: 5px;
+}
+
+header ul li a:hover{
+    color: #FF9C1E;
+    cursor: pointer;
+    background-color: #a0a0a0;
+    border-radius: 5px;
+}
+
+.flex_row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+section#index li{
+    font-size: 22px;
+}
+
+section#heroes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+section#heroes table a div{
+    font-size: 22px;
+}
+
+section#heroes table a img{
+    border-radius: 5px;
+}
+
+section#heroes table td{
+    border-radius: 5px;
+}
+
+section#heroes table td:hover{
+    background-color: #FF9C1E;
+}
+
+section#hero_info div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+section#hero_abilities{
+    margin-top: 50px;
+}
+
+section#hero_abilities table tr td{
+    border: 3px solid black;
+    border-radius: 10px; 
+}
+
+section#rewards{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+section#rewards h2{
+    margin: 0;
+}
+
+section#rewards h3{
+    margin: 10px 0px;
+}
+
+section#rewards ul{
+    height:200px; 
+    width:170px; 
+    overflow:hidden; 
+    overflow-y:auto;
+}
+
+section#rewards div{
+    display: flex;
+    flex-direction: column;
+}
+
+section#rewards div.rewards_type{
+    border: 3px solid black;
+    border-radius: 10px; 
+    margin-top: 10px;
+}
+
+section#rewards div div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+section#rewards div div div{
+    display: flex;
+    flex-direction: column;
+}
+
+section#rewards div div div h3.Common{
+    color: black;
+}
+
+section#rewards div div div h3.Rare{
+    color: #01C2FD;
+}
+
+section#rewards div div div h3.Epic{
+    color: #FE01FE;
+}
+
+section#rewards div div div h3.Legendary{
+    color: #FF9C1E;
+}
+
+section#rewards div div div li{
+    font-size: 22px;
+    border-radius: 3px;
+}
+
+section#events{
+    margin-top: 30px;
+}
+
+section#events table a div{
+    font-size: 25px;
+    font-style: italic;
+}
+
+section#events table tr td{
+    padding: 10px;
+    border-radius: 10px;
+}
+
+section#events table tr td:hover{
+    background-color: #FF9C1E;
+}
+
+section#events table tr td img{
+    border-radius: 10px;
+}
+
+section#event_info div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+section#account_info div#title{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+section#account_stats div.bar_ext{
+    border-radius: 5px;
+}
+
+section#admin table ul{
+    margin: 10px;
+}
+
+section#admin table ul li{
+    font-family: "Futura", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+}
