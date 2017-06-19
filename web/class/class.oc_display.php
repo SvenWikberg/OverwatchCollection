@@ -1,9 +1,9 @@
-<!--
+<?php
+/*
     Auteur: Sven Wikberg
     Date: 19/06/2017
     Description: D'affichage des donnees
--->    
-<?php
+*/
 class OcDisplay{
 
     // affiche la barre de navigation, avec des chamgement selon si on est connetcer ou pas
@@ -82,7 +82,7 @@ class OcDisplay{
                 $display .= '<div>';
                 foreach ($type as $key => $quality) {
                     $display .= '<div>';
-                    $display .= '<h3 class="' .$key. '">' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
+                    $display .= '<h3 class="' .$key. '">' .$key. '</h3><ul>';
                     foreach ($quality as $key => $reward) {
 
                         // si l'id reward correspond a un element du tableau alors l'utilisateur a la reward, donc on l'affiche vert
@@ -174,7 +174,7 @@ class OcDisplay{
                 $display .= '<div>';
                 foreach ($type as $key => $quality) {
                     $display .= '<div>';
-                    $display .= '<h3 class="' .$key. '">' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
+                    $display .= '<h3 class="' .$key. '">' .$key. '</h3><ul>';
                     foreach ($quality as $key => $reward) {
 
                         // si l'id reward correspond a un element du tableau alors l'utilisateur a la reward, donc on l'affiche vert
@@ -216,7 +216,7 @@ class OcDisplay{
         $nb_col_current = 0; // nombre de colonnes actuelle
 
         if($abilities){
-            $display = '<table border="1">';
+            $display = '<table>';
             foreach ($abilities as $ability) {
                 $nb_col_current++;
 
@@ -318,7 +318,7 @@ class OcDisplay{
             $display .= '<div>';
             foreach ($type as $key => $quality) {
                 $display .= '<div>';
-                $display .= '<h3 class="' .$key. '">' .$key. '</h3><ul style="height:200px; width:170px; overflow:hidden; overflow-y:auto;">';
+                $display .= '<h3 class="' .$key. '">' .$key. '</h3><ul>';
                 foreach ($quality as $key => $reward) {
 
                     // si l'id reward correspond a un element du tableau alors l'utilisateur a la reward, donc on l'affiche vert

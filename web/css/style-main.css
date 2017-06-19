@@ -58,6 +58,9 @@ footer{
     background-color: #cccccc;
     border-radius: 15px;
 }
+footer p{
+    margin: 0px;
+}
 
 header ul{
     padding: 30px 20px;
@@ -133,12 +136,32 @@ section#hero_abilities{
     margin-top: 50px;
 }
 
+section#hero_abilities table tr td{
+    border: 3px solid black;
+    border-radius: 10px; 
+}
+
 section#rewards{
     margin-top: 50px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
+}
+
+section#rewards h2{
+    margin: 0;
+}
+
+section#rewards h3{
+    margin: 10px 0px;
+}
+
+section#rewards ul{
+    height:200px; 
+    width:170px; 
+    overflow:hidden; 
+    overflow-y:auto;
 }
 
 section#rewards div{
@@ -183,10 +206,6 @@ section#rewards div div div h3.Legendary{
 section#rewards div div div li{
     font-size: 22px;
     border-radius: 3px;
-}
-
-section#rewards div div div li:hover{
-    background-color: #C0C0C0;
 }
 
 section#events{

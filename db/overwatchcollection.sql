@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 08 Juin 2017 à 09:48
+-- Généré le :  Lun 19 Juin 2017 à 09:28
 -- Version du serveur :  5.6.15-log
 -- Version de PHP :  5.4.24
 
@@ -152,6 +152,25 @@ INSERT INTO `abilities` (`id_ability`, `name`, `description`, `id_hero`, `is_ult
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `currencies`
+--
+
+CREATE TABLE IF NOT EXISTS `currencies` (
+  `id_currency` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(25) NOT NULL,
+  PRIMARY KEY (`id_currency`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Contenu de la table `currencies`
+--
+
+INSERT INTO `currencies` (`id_currency`, `name`) VALUES
+(1, 'Credit');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `events`
 --
 
@@ -227,33 +246,6 @@ INSERT INTO `heroes` (`id_hero`, `name`, `description`, `id_role`, `health`, `ar
 -- --------------------------------------------------------
 
 --
--- Structure de la table `heroes_sub_roles`
---
-
-CREATE TABLE IF NOT EXISTS `heroes_sub_roles` (
-  `id_hero` int(11) NOT NULL,
-  `id_sub_role` int(11) NOT NULL,
-  PRIMARY KEY (`id_hero`,`id_sub_role`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Contenu de la table `heroes_sub_roles`
---
-
-INSERT INTO `heroes_sub_roles` (`id_hero`, `id_sub_role`) VALUES
-(1, 2),
-(1, 3),
-(5, 3),
-(7, 2),
-(10, 2),
-(16, 1),
-(17, 1),
-(19, 3),
-(22, 2);
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `qualities`
 --
 
@@ -288,7 +280,12 @@ CREATE TABLE IF NOT EXISTS `rewards` (
   `id_currency` int(11) DEFAULT NULL,
   `id_quality` int(11) NOT NULL,
   `id_event` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_reward`)
+  PRIMARY KEY (`id_reward`),
+  KEY `id_reward_type` (`id_reward_type`),
+  KEY `id_hero` (`id_hero`),
+  KEY `id_currency` (`id_currency`),
+  KEY `id_quality` (`id_quality`),
+  KEY `id_event` (`id_event`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1922 ;
 
 --
@@ -1996,16 +1993,16 @@ INSERT INTO `rewards` (`id_reward`, `name`, `id_reward_type`, `id_hero`, `cost`,
 (1708, 'Kneeling', 4, 23, 75, 1, 2, 0),
 (1709, 'Rising', 4, 23, 75, 1, 2, 0),
 (1710, 'Playing fair', 2, 23, 0, 0, 1, 0),
-(1711, 'Cool', 2, 23, 25, 1, 2, 0),
-(1712, 'Did You Mean To Do That?', 2, 23, 25, 1, 2, 0),
-(1713, 'Glitch On The System', 2, 23, 25, 1, 2, 0),
-(1714, 'Good One', 2, 23, 25, 1, 2, 0),
-(1715, 'Hack The Planet', 2, 23, 25, 1, 2, 0),
-(1716, 'In Over Your Head', 2, 23, 25, 1, 2, 0),
-(1717, 'Just Squishing A Bug', 2, 23, 25, 1, 2, 0),
-(1718, 'Mess With The Best...', 2, 23, 25, 1, 2, 0),
-(1719, 'Show Me What You Got', 2, 23, 25, 1, 2, 0),
-(1720, 'Taking This Very Seriously', 2, 23, 25, 1, 2, 0),
+(1711, 'Cool', 2, 23, 25, 1, 1, 0),
+(1712, 'Did You Mean To Do That?', 2, 23, 25, 1, 1, 0),
+(1713, 'Glitch On The System', 2, 23, 25, 1, 1, 0),
+(1714, 'Good One', 2, 23, 25, 1, 1, 0),
+(1715, 'Hack The Planet', 2, 23, 25, 1, 1, 0),
+(1716, 'In Over Your Head', 2, 23, 25, 1, 1, 0),
+(1717, 'Just Squishing A Bug', 2, 23, 25, 1, 1, 0),
+(1718, 'Mess With The Best...', 2, 23, 25, 1, 1, 0),
+(1719, 'Show Me What You Got', 2, 23, 25, 1, 1, 0),
+(1720, 'Taking This Very Seriously', 2, 23, 25, 1, 1, 0),
 (1721, 'Skull', 1, 23, 25, 1, 1, 0),
 (1722, 'Agent', 1, 23, 25, 1, 1, 0),
 (1723, 'Behind You', 1, 23, 25, 1, 1, 0),
@@ -2257,27 +2254,6 @@ INSERT INTO `roles` (`id_role`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `sub_roles`
---
-
-CREATE TABLE IF NOT EXISTS `sub_roles` (
-  `id_sub_role` int(11) NOT NULL,
-  `name` varchar(25) CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`id_sub_role`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Contenu de la table `sub_roles`
---
-
-INSERT INTO `sub_roles` (`id_sub_role`, `name`) VALUES
-(1, 'Builder'),
-(2, 'Healer'),
-(3, 'Sniper');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `users`
 --
 
@@ -2287,21 +2263,22 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(100) CHARACTER SET utf8 NOT NULL,
   `email` varchar(100) CHARACTER SET utf8 NOT NULL,
   `is_banned` tinyint(1) NOT NULL DEFAULT '0',
+  `is_admin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `username_2` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
 --
 -- Contenu de la table `users`
 --
 
-INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `is_banned`) VALUES
-(7, 'sven', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'svenwikberg@gmail.com', 0),
-(25, 'ewzirgqowe', '41cc18bc78b8dc13c82b34d075fe99f7aa51948f', 'loick.ppl@eduge.ch', 0),
-(26, 'werqwegrqwg', '601f1889667efaebb33b8c12572835da3f027f78', 'admin@admin.com', 0),
-(27, 'Toto', '0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c', 'qwe@qwe.qwe', 0);
+INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `is_banned`, `is_admin`) VALUES
+(7, 'oc_admin', 'b618d7720e0df97a72ebbe403b2ced182a183689', 'admin@mail.com', 0, 1),
+(37, 'test1', '52d3f87b98d19195ae642e19c8655ad3268b26e1', 'test1@mail.com', 1, 0),
+(38, 'test2', 'd052f85fa58fb0497ad4bb7f2d069dd486c4a9aa', 'test2@mail.com', 0, 0),
+(40, 'test3', '358c5635a262b967ea5dcf90bf9d256cd1aa5613', 'test3@mail.com', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2321,190 +2298,83 @@ CREATE TABLE IF NOT EXISTS `users_rewards` (
 --
 
 INSERT INTO `users_rewards` (`id_user`, `id_reward`) VALUES
-(7, 959),
-(8, 959),
-(7, 963),
-(8, 963),
-(7, 967),
-(8, 967),
+(7, 4),
+(7, 5),
+(7, 6),
+(7, 7),
+(7, 29),
+(7, 121),
+(7, 122),
+(7, 124),
+(7, 221),
+(7, 222),
+(7, 224),
+(7, 296),
+(7, 297),
+(7, 673),
+(7, 674),
+(7, 677),
+(7, 678),
+(7, 706),
+(7, 708),
+(7, 717),
+(7, 718),
+(7, 719),
+(7, 803),
+(7, 804),
+(7, 805),
+(7, 806),
+(7, 807),
+(7, 851),
+(7, 879),
+(7, 897),
+(7, 901),
+(7, 964),
+(7, 965),
+(7, 966),
 (7, 971),
-(8, 971),
-(7, 975),
-(8, 975),
-(7, 979),
-(8, 979),
-(7, 983),
-(8, 983),
 (7, 987),
-(8, 987),
-(7, 991),
-(8, 991),
-(7, 995),
-(8, 995),
-(7, 999),
-(8, 999),
+(7, 988),
+(7, 1001),
 (7, 1003),
-(8, 1003),
-(7, 1007),
-(8, 1007),
-(7, 1011),
-(8, 1011),
-(7, 1015),
-(8, 1015),
-(7, 1019),
-(8, 1019),
-(7, 1023),
-(8, 1023),
-(7, 1027),
-(8, 1027),
-(7, 1031),
-(8, 1031),
-(7, 1035),
-(8, 1035),
-(7, 1039),
-(8, 1039),
-(7, 1043),
-(8, 1043),
-(7, 1047),
-(8, 1047),
-(7, 1051),
-(8, 1051),
-(7, 1055),
-(8, 1055),
-(7, 1059),
-(8, 1059),
-(7, 1063),
-(8, 1063),
-(7, 1067),
-(8, 1067),
-(7, 1071),
-(8, 1071),
-(7, 1075),
-(8, 1075),
-(7, 1079),
-(8, 1079),
-(7, 1083),
-(8, 1083),
-(7, 1087),
-(8, 1087),
-(7, 1091),
-(8, 1091),
-(7, 1095),
-(8, 1095),
-(7, 1099),
-(8, 1099),
-(7, 1103),
-(8, 1103),
-(7, 1107),
-(8, 1107),
-(7, 1111),
-(8, 1111),
-(7, 1115),
-(8, 1115),
-(7, 1119),
-(8, 1119),
-(7, 1123),
-(8, 1123),
-(7, 1127),
-(8, 1127),
-(7, 1131),
-(8, 1131),
-(7, 1135),
-(8, 1135),
-(7, 1139),
-(8, 1139),
-(7, 1143),
-(8, 1143),
-(7, 1147),
-(8, 1147),
-(7, 1151),
-(8, 1151),
-(7, 1155),
-(8, 1155),
-(7, 1159),
-(8, 1159),
-(7, 1163),
-(8, 1163),
-(7, 1167),
-(8, 1167),
-(7, 1171),
-(8, 1171),
+(7, 1006),
+(7, 1077),
 (7, 1175),
-(8, 1175),
 (7, 1179),
-(8, 1179),
-(7, 1183),
-(8, 1183),
-(7, 1187),
-(8, 1187),
-(7, 1191),
-(8, 1191),
-(7, 1195),
-(8, 1195),
-(7, 1199),
-(8, 1199),
-(7, 1203),
-(8, 1203),
-(7, 1207),
-(8, 1207),
-(7, 1211),
-(8, 1211),
-(7, 1215),
-(8, 1215),
-(7, 1219),
-(8, 1219),
-(7, 1223),
-(8, 1223),
 (7, 1234),
-(8, 1234),
-(7, 1246),
-(8, 1246),
-(7, 1257),
-(8, 1257),
-(7, 1268),
-(8, 1268),
-(7, 1279),
-(8, 1279),
-(7, 1290),
-(8, 1290),
-(7, 1301),
-(8, 1301),
-(7, 1312),
-(8, 1312),
-(7, 1323),
-(8, 1323),
-(7, 1334),
-(8, 1334),
-(7, 1346),
-(8, 1346),
-(7, 1358),
-(8, 1358),
-(7, 1369),
-(8, 1369),
-(7, 1380),
-(8, 1380),
-(7, 1392),
-(8, 1392),
-(7, 1403),
-(8, 1403),
-(7, 1414),
-(8, 1414),
-(7, 1426),
-(8, 1426),
-(7, 1438),
-(8, 1438),
-(7, 1449),
-(8, 1449),
-(7, 1459),
-(8, 1459),
-(7, 1691),
-(8, 1691),
-(7, 1702),
-(8, 1702),
-(7, 1706),
-(8, 1706),
-(7, 1749),
-(8, 1749);
+(7, 1242),
+(7, 1475),
+(7, 1480),
+(7, 1496),
+(7, 1499),
+(7, 1500),
+(7, 1505),
+(7, 1508),
+(7, 1510),
+(7, 1511),
+(7, 1516),
+(7, 1517),
+(7, 1518),
+(7, 1521),
+(7, 1548),
+(7, 1549),
+(7, 1550),
+(7, 1590),
+(7, 1591),
+(7, 1592),
+(7, 1601),
+(7, 1656),
+(7, 1657),
+(7, 1658),
+(7, 1659),
+(7, 1660),
+(7, 1678),
+(7, 1780),
+(7, 1782),
+(7, 1798),
+(7, 1873),
+(7, 1890),
+(7, 1898);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

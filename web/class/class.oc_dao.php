@@ -1,16 +1,10 @@
-<!--
+<?php
+/*
     Auteur: Sven Wikberg
     Date: 19/06/2017
-    Description: Classe de recuperation de donnees
--->    
-<?php
-/////////////////////
-function print_rr($value){
-    echo '<pre>';
-    print_r($value);
-    echo '</pre>';
-}
-/////////////////////
+    Description: D'affichage des donnees
+*/
+
 require_once('class/class.my_pdo.php');
 
 class OcDao{

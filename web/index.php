@@ -15,7 +15,6 @@ require_once('class/class.oc_display.php');
         <meta charset="utf-8">
         <title>OverwatchCollection</title>
         <link rel="stylesheet" href="css/style-main.css">
-        <script src="script.js"></script>
     </head>
     <body>
         <header>
@@ -40,7 +39,7 @@ require_once('class/class.oc_display.php');
                     <br>Et finalement il y a la partie "My Account" qui est accessible uniquement pour les utilisateurs connecté, qui affiche  
                     entre autre des statistiques sur les objets sélectionné et un classement des utilisateurs.</p>
                 </div>
-                <div style="width: 25%; border: 1px solid black;">
+                <div style="width: 25%;">
                     <h2>Users list</h2>
                     <?php
                     OcDisplay::DisplayListUsers();
@@ -49,7 +48,7 @@ require_once('class/class.oc_display.php');
             </div>
         </section>
         <footer>
-            <p>This site is not affiliated with Blizzard Entertainement. ®2016 Blizzard Entertainment, Inc. All rights reserved <br>
+            <p>This site is not affiliated with Blizzard Entertainement. ®2016 Blizzard Entertainment, Inc. All rights reserved /
             Author : Sven Wikberg </p>
         </footer>
     </body>

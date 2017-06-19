@@ -1,9 +1,10 @@
-<!--
+<?php
+/*
     Auteur: Sven Wikberg
     Date: 19/06/2017
-    Description: Classe pdo
--->    
-<?php
+    Description: D'affichage des donnees
+*/
+
 require_once('config/config_db.php');
 
 class MyPdo{

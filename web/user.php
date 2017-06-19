@@ -75,7 +75,6 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
         <meta charset="utf-8">
         <title>OverwatchCollection</title>
         <link rel="stylesheet" href="css/style-main.css">
-        <script src="script.js"></script>
     </head>
     <body>
         <header>
@@ -103,7 +102,7 @@ if (isset($_GET['action'])) { // selon l'action, la page recupere, teste ou proc
         }
         ?>
         <footer>
-            <p>This site is not affiliated with Blizzard Entertainement. ®2016 Blizzard Entertainment, Inc. All rights reserved <br>
+            <p>This site is not affiliated with Blizzard Entertainement. ®2016 Blizzard Entertainment, Inc. All rights reserved /
             Author : Sven Wikberg </p>
         </footer>
     </body>
