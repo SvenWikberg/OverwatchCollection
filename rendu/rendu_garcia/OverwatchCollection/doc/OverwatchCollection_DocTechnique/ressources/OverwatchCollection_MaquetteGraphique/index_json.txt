@@ -1,1 +1,0 @@
-{"mockup":{"controls":{"control":[{"ID":"92","h":"684","measuredH":"400","measuredW":"450","properties":{"text":"OverwatchCollection\nhttp://"},"typeID":"BrowserWindow","w":"960","x":"129","y":"18","zOrder":"0"}]},"measuredH":"702","measuredW":"1089","mockupH":"684","mockupW":"960","version":"1.0"}}

@@ -1,1 +1,0 @@
-{"mockup":{"controls":{"control":[{"ID":"121","measuredH":"63","measuredW":"48","properties":{"text":"Hero 13"},"typeID":"IconLabel","x":"799","y":"411","zOrder":"0"}]},"measuredH":"474","measuredW":"847","mockupH":"63","mockupW":"48","version":"1.0"}}

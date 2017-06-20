@@ -2,7 +2,7 @@
 /*
     Auteur: Sven Wikberg
     Date: 19/06/2017
-    Description: D'affichage des donnees
+    Description: données pour la connexion a la base
 */
 
 define('DB_HOST', 'localhost');
